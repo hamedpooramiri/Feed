@@ -6,30 +6,96 @@
 //
 
 import XCTest
+import Feed
+
+class URLSessionHTTPClient {
+    
+   private let session: URLSession
+
+    init(session: URLSession) {
+        self.session = session
+    }
+
+    func get(from url: URL, completion: @escaping (HTTPClientResult)-> Void) {
+        session.dataTask(with: url) { _, _, error in
+            if let error = error {
+                completion(HTTPClientResult.failure(error))
+            }
+        }.resume()
+    }
+
+}
+
 
 final class URLSessionHTTPClientTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func test_getFromURL_resumeOnce() {
+        let url = URL(string: "www.a-url.com")!
+        let task = URLSessionDataTaskSpy()
+        let session = URLSessionSpy()
+        session.stub(url: url, with: task)
+        let sut = makeSUT(session: session)
+        sut.get(from: url) {_ in }
+        XCTAssertEqual(task.resumeCount, 1)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func test_getFromURL_failsOnRequestError() {
+        let url = URL(string: "www.a-url.com")!
+        let task = URLSessionDataTaskSpy()
+        let session = URLSessionSpy()
+        let domainError = NSError(domain: "a error", code: 0)
+        session.stub(url: url, with: task, error: domainError)
+        let sut = makeSUT(session: session)
+        let exp = expectation(description: "a wait")
+        sut.get(from: url) { result in
+            if case .failure(let error as NSError) = result {
+             XCTAssertEqual(error, domainError)
+            }
+            exp.fulfill()
         }
+        wait(for: [exp])
+    }
+    
+    //MARK: - Helper
+    
+    func makeSUT(session: URLSession) -> URLSessionHTTPClient {
+        URLSessionHTTPClient(session: session)
+    }
+    
+    private class URLSessionSpy: URLSession {
+
+        var stubs: [URL : Stub] = [:]
+        
+        public struct Stub {
+            let task: URLSessionDataTask
+            let error: Error?
+        }
+        
+        func stub(url: URL, with task: URLSessionDataTask, error: Error? = nil) {
+            stubs[url] = Stub(task: task, error: error)
+        }
+
+        override func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+            guard let stub = stubs[url] else  {
+                fatalError("could not find stub for \(url)")
+            }
+            completionHandler(nil, nil, stub.error)
+            return stub.task ?? FakeURLSessionDataTask()
+        }
+
+    }
+    
+    private class FakeURLSessionDataTask: URLSessionDataTask {
+        override func resume() {}
     }
 
+    private class URLSessionDataTaskSpy: URLSessionDataTask {
+        
+        var resumeCount: Int = 0
+        
+        override func resume() {
+            resumeCount += 1
+        }
+
+    }
 }
