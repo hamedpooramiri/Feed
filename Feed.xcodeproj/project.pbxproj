@@ -59,6 +59,7 @@
 		1C697A292A81533500E4FDBB /* API */ = {
 			isa = PBXGroup;
 			children = (
+				1C697A252A807C3900E4FDBB /* RemoteFeedLoader.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -97,7 +98,6 @@
 				1C9226B22A80681400DFB9D6 /* Feed.docc */,
 				1C697A292A81533500E4FDBB /* API */,
 				1C697A2A2A81538100E4FDBB /* Feature */,
-				1C697A252A807C3900E4FDBB /* RemoteFeedLoader.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
