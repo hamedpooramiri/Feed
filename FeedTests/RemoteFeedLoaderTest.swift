@@ -78,34 +78,22 @@ final class RemoteFeedLoaderTest: XCTestCase {
         let client = HTTPClientSpy()
         let sut = makeSUT(url: url, client: client)
         
-        let feedItem1 = FeedItem(
+        let feedItem1 = makeItem(
             id: UUID(),
             description: nil,
             location: nil,
             imageUrl: URL(string: "www.a-url.com")!)
-        let feedItem2 = FeedItem(
+        let feedItem2 = makeItem(
             id: UUID(),
             description: "a description",
             location: "a location",
             imageUrl: URL(string: "www.another-url.com")!)
 
-        let jsonItem1 = [
-            "id": feedItem1.id.uuidString,
-            "image": feedItem1.imageUrl.absoluteString
-        ]
-        
-        let jsonItem2 = [
-            "id": feedItem2.id.uuidString,
-            "description": feedItem2.description,
-            "location": feedItem2.location,
-            "image": feedItem2.imageUrl.absoluteString,
-        ]
-        
         let resultJSON = [
-            "items": [jsonItem1, jsonItem2]
+            "items": [feedItem1.json, feedItem2.json]
         ]
         
-        exp(sut, toCompleteWith: .success([feedItem1, feedItem2])) {
+        exp(sut, toCompleteWith: .success([feedItem1.model, feedItem2.model])) {
             let jsonData =  try! JSONSerialization.data(withJSONObject: resultJSON)
             client.complete(withStatusCode: 200, with: jsonData)
         }
@@ -120,6 +108,23 @@ final class RemoteFeedLoaderTest: XCTestCase {
         XCTAssertEqual(capturedResult, [result])
     }
 
+    func makeItem(id: UUID, description: String?, location: String?, imageUrl: URL) -> (model: FeedItem, json: [String: Any]) {
+        let Item = FeedItem(
+            id: id,
+            description: description,
+            location: location,
+            imageUrl: imageUrl)
+        let json = [
+            "id": Item.id.uuidString,
+            "description": Item.description,
+            "location": Item.location,
+            "image": Item.imageUrl.absoluteString,
+        ].reduce(into: [String: Any]()) { partialResult, element in
+            if let value = element.value { partialResult[element.key] = value }
+        }
+    
+        return (Item, json)
+    }
     
     func makeSUT(url: URL, client: HttpClient) -> RemoteFeedLoader {
          RemoteFeedLoader(url: url, client: client)
