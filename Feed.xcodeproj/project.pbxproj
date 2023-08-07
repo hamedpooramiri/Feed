@@ -76,6 +76,14 @@
 			path = Feature;
 			sourceTree = "<group>";
 		};
+		1C697A2D2A81687900E4FDBB /* API */ = {
+			isa = PBXGroup;
+			children = (
+				1C697A232A807B7300E4FDBB /* RemoteFeedLoaderTest.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		1C9226A42A80681400DFB9D6 = {
 			isa = PBXGroup;
 			children = (
@@ -108,7 +116,7 @@
 		1C9226BC2A80681400DFB9D6 /* FeedTests */ = {
 			isa = PBXGroup;
 			children = (
-				1C697A232A807B7300E4FDBB /* RemoteFeedLoaderTest.swift */,
+				1C697A2D2A81687900E4FDBB /* API */,
 			);
 			path = FeedTests;
 			sourceTree = "<group>";
