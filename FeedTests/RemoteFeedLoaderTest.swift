@@ -6,30 +6,115 @@
 //
 
 import XCTest
+import Feed
 
 final class RemoteFeedLoaderTest: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    let url = URL(string: "www.google.com")!
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func test_init_notNilURL() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
+        sut.load { _ in }
+        XCTAssertTrue(!client.requestedURLs.isEmpty)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_load_callOnce() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
+        sut.load { _ in }
+        XCTAssertTrue(client.requestedURLs.count == 1)
     }
+    
+    func test_load_callTwice() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
+        sut.load { _ in }
+        sut.load { _ in }
+        XCTAssertTrue(client.requestedURLs.count == 2)
+    }
+    
+    
+    func test_load_deliverErrorOnClientError() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        var capturedError: Error?
+        sut.load { result in
+            if case .failure(let error) = result {
+                capturedError = error
+            }
         }
+        client.complete(with: .connectivity, at: 0)
+        XCTAssertNotNil(capturedError)
     }
+    
+    func test_load_deliverConactivityErrorOnClientError() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
+        let error = RemoteFeedLoader.Error.connectivity
+        var capturedError: RemoteFeedLoader.Error?
+        sut.load { result in
+            if case .failure(let error) = result {
+                capturedError = error
+            }
+        }
+        client.complete(with: error, at: 0)
+        XCTAssertNotNil(capturedError)
+        XCTAssertEqual(capturedError, error)
+    }
+    
+    func test_load_deliversErrorOnNon200HTTPResponse() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
 
+        let statusCodes = [199, 201, 300, 400, 500].enumerated()
+
+        statusCodes.forEach { index, code in
+
+            var capturedErrors: [RemoteFeedLoader.Error] = []
+            
+            sut.load { result in
+                if case .failure(let error) = result {
+                    capturedErrors.append(error)
+                }
+            }
+            
+            client.complete(withStatusCode: code, index: index)
+            XCTAssertEqual(capturedErrors, [.invalidData])
+            
+        }
+        
+    }
+    
+    //MARK: - Helper
+    
+    func makeSUT(url: URL, client: HttpClient) -> RemoteFeedLoader {
+         RemoteFeedLoader(url: url, client: client)
+    }
+    
+    
+    private class HTTPClientSpy: HttpClient {
+
+        var requestedURLs = [(url: URL, completion: (Result) -> Void)]()
+
+        func get(from url: URL, completion:  @escaping (Result) -> Void) {
+            requestedURLs.append((url, completion))
+        }
+
+        func complete(with error: RemoteFeedLoader.Error, at index: Int) {
+            requestedURLs[index].completion(.failure(error))
+        }
+        
+        func complete(withStatusCode code: Int, index: Int) {
+            let response = HTTPURLResponse(url: requestedURLs[index].url,
+                                           statusCode: code,
+                                           httpVersion: nil,
+                                           headerFields: nil)!
+            requestedURLs[index].completion(.success(response))
+        }
+        
+    }
+    
+    
 }
