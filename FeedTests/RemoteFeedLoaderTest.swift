@@ -10,7 +10,7 @@ import Feed
 
 final class RemoteFeedLoaderTest: XCTestCase {
 
-    let url = URL(string: "www.google.com")!
+    let url = URL(string: "www.a-url.com")!
 
     func test_init_notNilURL() {
         let client = HTTPClientSpy()
@@ -96,9 +96,9 @@ final class RemoteFeedLoaderTest: XCTestCase {
     
     private class HTTPClientSpy: HttpClient {
 
-        var requestedURLs = [(url: URL, completion: (Result) -> Void)]()
+        var requestedURLs = [(url: URL, completion: (HTTPClientResult) -> Void)]()
 
-        func get(from url: URL, completion:  @escaping (Result) -> Void) {
+        func get(from url: URL, completion:  @escaping (HTTPClientResult) -> Void) {
             requestedURLs.append((url, completion))
         }
 
