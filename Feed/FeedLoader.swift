@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FeedLoader {
-    func load(completion: @escaping (HTTPClientResult)-> Void)
+    func load(completion: @escaping (RemoteFeedLoader.Result)-> Void)
 }
