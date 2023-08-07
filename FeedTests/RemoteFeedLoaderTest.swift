@@ -74,6 +74,43 @@ final class RemoteFeedLoaderTest: XCTestCase {
         }
     }
 
+    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
+        let client = HTTPClientSpy()
+        let sut = makeSUT(url: url, client: client)
+        
+        let feedItem1 = FeedItem(
+            id: UUID(),
+            description: nil,
+            location: nil,
+            imageUrl: URL(string: "www.a-url.com")!)
+        let feedItem2 = FeedItem(
+            id: UUID(),
+            description: "a description",
+            location: "a location",
+            imageUrl: URL(string: "www.another-url.com")!)
+
+        let jsonItem1 = [
+            "id": feedItem1.id.uuidString,
+            "image": feedItem1.imageUrl.absoluteString
+        ]
+        
+        let jsonItem2 = [
+            "id": feedItem2.id.uuidString,
+            "description": feedItem2.description,
+            "location": feedItem2.location,
+            "image": feedItem2.imageUrl.absoluteString,
+        ]
+        
+        let resultJSON = [
+            "items": [jsonItem1, jsonItem2]
+        ]
+        
+        exp(sut, toCompleteWith: .success([feedItem1, feedItem2])) {
+            let jsonData =  try! JSONSerialization.data(withJSONObject: resultJSON)
+            client.complete(withStatusCode: 200, with: jsonData)
+        }
+    }
+    
     //MARK: - Helper
     
     func exp(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, when action: ()-> Void, file: StaticString = #filePath, line: UInt = #line ) {
