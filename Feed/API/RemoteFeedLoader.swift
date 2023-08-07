@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class RemoteFeedLoader {
+public class RemoteFeedLoader: FeedLoader {
     
     private let url: URL
     private let client: HttpClient
@@ -17,17 +17,12 @@ public class RemoteFeedLoader {
         case connectivity
     }
     
-    public enum Result: Equatable {
-        case success([FeedItem])
-        case failure(RemoteFeedLoader.Error)
-    }
-    
     public init(url: URL, client: HttpClient) {
         self.url = url
         self.client = client
     }
     
-    public func load(completion: @escaping (Result) -> Void) {
+    public func load(completion: @escaping (LoadFeedResult) -> Void) {
         client.get(from: url) { [weak self] result in
             guard self != nil else { return }
             if case let .success(data, response) = result {
@@ -36,13 +31,13 @@ public class RemoteFeedLoader {
                         
                         completion(.success(feedItemResponse.items.map(\.feedItem)))
                     } else {
-                        completion(.failure(.invalidData))
+                        completion(.failure(Error.invalidData))
                     }
                 } else {
-                    completion(.failure(.invalidData))
+                    completion(.failure(Error.invalidData))
                 }
             } else {
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
             
         }
