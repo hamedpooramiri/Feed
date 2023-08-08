@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "B766B1B6-C4AB-4EDC-A159-87361D718A33",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "testExecutionOrdering" : "random"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Feed.xcodeproj",
+          "identifier" : "1C9226AD2A80681400DFB9D6",
+          "name" : "Feed"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1C9226B72A80681400DFB9D6",
+        "name" : "FeedTests"
+      }
+    }
+  ],
+  "version" : 1
+}
