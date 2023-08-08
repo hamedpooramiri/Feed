@@ -16,7 +16,7 @@ final class FeedAPIEndToEndTests: XCTestCase {
         let client = URLSessionHTTPClient(session: session)
         let loader = RemoteFeedLoader(url: url, client: client)
         let exp = expectation(description: "waiting for load data")
-
+        
         var expectedResult: LoadFeedResult?
         loader.load { result in
             expectedResult = result
@@ -32,6 +32,8 @@ final class FeedAPIEndToEndTests: XCTestCase {
         default:
             XCTFail("expected to get successful result but got no result")
         }
+        trackForMemoryLeaks(loader)
+        trackForMemoryLeaks(client)
     }
 
 }
