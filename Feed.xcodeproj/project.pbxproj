@@ -55,6 +55,7 @@
 		1CE50E352A82EB8F00B1020E /* Feed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Feed.xctestplan; sourceTree = "<group>"; };
 		1CE50E3A2A82F0C200B1020E /* FeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CE50E3C2A82F0C200B1020E /* FeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
+		1CE50E452A82FFD900B1020E /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = CI.xctestplan; path = ../CI.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +125,7 @@
 		1C9226A42A80681400DFB9D6 = {
 			isa = PBXGroup;
 			children = (
+				1CE50E452A82FFD900B1020E /* CI.xctestplan */,
 				1CE50E352A82EB8F00B1020E /* Feed.xctestplan */,
 				1C9226B02A80681400DFB9D6 /* Feed */,
 				1C9226BC2A80681400DFB9D6 /* FeedTests */,

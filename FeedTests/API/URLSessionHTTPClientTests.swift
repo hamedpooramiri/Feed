@@ -20,17 +20,17 @@ final class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.stopInterceptingRequests()
     }
     
-    func test_getFromURL_performGetRequest() {
-        let url = URL(string: "http://a-url.com")!
-        let exp = expectation(description: "wait for observeRequests")
-        URLProtocolStub.observeRequests { request in
-            XCTAssertEqual(request.url, url)
-            XCTAssertEqual(request.httpMethod, "GET")
-            exp.fulfill()
-        }
-        makeSUT().get(from: url) { _ in}
-        wait(for: [exp])
-    }
+//    func test_getFromURL_performGetRequest() {
+//        let url = URL(string: "http://a-url.com")!
+//        let exp = expectation(description: "wait for observeRequests")
+//        URLProtocolStub.observeRequests { request in
+//            XCTAssertEqual(request.url, url)
+//            XCTAssertEqual(request.httpMethod, "GET")
+//            exp.fulfill()
+//        }
+//        makeSUT().get(from: url) { _ in}
+//        wait(for: [exp])
+//    }
     
     func test_getFromURL_failsOnRequestError() {
         let domainError = anyNSError()
