@@ -11,6 +11,19 @@ import Feed
 final class FeedAPIEndToEndTests: XCTestCase {
 
     func test_endToEndTest_ServerGetFeedResult_matchesFixedTestAccountData() throws {
+        switch getFeedResult() {
+        case .success(let items)?:
+            XCTAssertEqual(items.count, 8, "expected 8 items to receive from test account")
+            XCTAssertEqual(items[0].id.uuidString, "73A7F70C-75DA-4C2E-B5A3-EED40DC53AA6")
+            XCTAssertEqual(items[0].location, "Location 1")
+        case .failure(let error)?:
+            XCTFail("expected to get successful result but got error \(error)")
+        default:
+            XCTFail("expected to get successful result but got no result")
+        }
+    }
+
+    func getFeedResult() -> LoadFeedResult? {
         let url = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
         let session = URLSession.shared
         let client = URLSessionHTTPClient(session: session)
@@ -23,21 +36,11 @@ final class FeedAPIEndToEndTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 10.0)
-        
-        switch expectedResult {
-        case .success(let items)?:
-            XCTAssertEqual(items.count, 8, "expected 8 items to receive from test account")
-            XCTAssertEqual(items[0].id.uuidString, "73A7F70C-75DA-4C2E-B5A3-EED40DC53AA6")
-            XCTAssertEqual(items[0].location, "Location 1")
-        case .failure(let error)?:
-            XCTFail("expected to get successful result but got error \(error)")
-        default:
-            XCTFail("expected to get successful result but got no result")
-        }
         trackForMemoryLeaks(loader)
         trackForMemoryLeaks(client)
+        return expectedResult
     }
-
+    
     // MARK: The fixed Data Expected From the server
     /*
      {
