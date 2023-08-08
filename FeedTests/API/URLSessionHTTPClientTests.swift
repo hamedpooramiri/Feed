@@ -72,7 +72,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     
     //MARK: - Helper
     
-    func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
+    func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HttpClient {
         let config = URLSessionConfiguration.default
         config.protocolClasses?.insert(URLProtocolStub.self, at: 0)
         let session = URLSession(configuration: config)
