@@ -20,17 +20,17 @@ final class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.stopInterceptingRequests()
     }
     
-//    func test_getFromURL_performGetRequest() {
-//        let url = URL(string: "http://a-url.com")!
-//        let exp = expectation(description: "wait for observeRequests")
-//        URLProtocolStub.observeRequests { request in
-//            XCTAssertEqual(request.url, url)
-//            XCTAssertEqual(request.httpMethod, "GET")
-//            exp.fulfill()
-//        }
-//        makeSUT().get(from: url) { _ in}
-//        wait(for: [exp])
-//    }
+    func test_getFromURL_performGetRequest() {
+        let url = URL(string: "http://a-url.com")!
+        let exp = expectation(description: "wait for observeRequests")
+        URLProtocolStub.observeRequests { request in
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, "GET")
+            exp.fulfill()
+        }
+        makeSUT().get(from: url) { _ in}
+        wait(for: [exp])
+    }
     
     func test_getFromURL_failsOnRequestError() {
         let domainError = anyNSError()
@@ -170,11 +170,17 @@ final class URLSessionHTTPClientTests: XCTestCase {
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
-            observeRequest?(request)
             return request
         }
         
         override func startLoading() {
+            
+            if let observe = URLProtocolStub.observeRequest {
+                client?.urlProtocolDidFinishLoading(self)
+                observe(request)
+                URLProtocolStub.observeRequest = nil
+                return
+            }
 
             if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
