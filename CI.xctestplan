@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "FB918A71-486D-424B-82A3-AE689E603F2D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1CE50E392A82F0C200B1020E",
+        "name" : "FeedAPIEndToEndTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1C9226B72A80681400DFB9D6",
+        "name" : "FeedTests"
+      }
+    }
+  ],
+  "version" : 1
+}
