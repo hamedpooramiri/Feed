@@ -159,6 +159,7 @@
 		1C9226BC2A80681400DFB9D6 /* FeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				1CE50E492A848E9B00B1020E /* Cache */,
 				1C697A2D2A81687900E4FDBB /* API */,
 			);
 			path = FeedTests;
@@ -170,6 +171,13 @@
 				1CE50E3C2A82F0C200B1020E /* FeedAPIEndToEndTests.swift */,
 			);
 			path = FeedAPIEndToEndTests;
+			sourceTree = "<group>";
+		};
+		1CE50E492A848E9B00B1020E /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
