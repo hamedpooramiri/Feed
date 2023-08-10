@@ -151,6 +151,7 @@
 			children = (
 				1C9226B12A80681400DFB9D6 /* Feed.h */,
 				1C9226B22A80681400DFB9D6 /* Feed.docc */,
+				1CE50E4C2A8574C300B1020E /* Cache */,
 				1C697A292A81533500E4FDBB /* API */,
 				1C697A2A2A81538100E4FDBB /* Feature */,
 			);
@@ -179,6 +180,13 @@
 			isa = PBXGroup;
 			children = (
 				1CE50E4A2A848F2C00B1020E /* LocalFeedLoaderTests.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		1CE50E4C2A8574C300B1020E /* Cache */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Cache;
 			sourceTree = "<group>";
