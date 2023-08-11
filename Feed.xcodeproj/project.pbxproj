@@ -26,6 +26,7 @@
 		1CE50E502A85CBD000B1020E /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E4F2A85CBD000B1020E /* FeedStore.swift */; };
 		1CE50E522A85CC2A00B1020E /* APIFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E512A85CC2A00B1020E /* APIFeedItem.swift */; };
 		1CE50E542A85CC7600B1020E /* LocalFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E532A85CC7600B1020E /* LocalFeedItem.swift */; };
+		1CE50E562A8673A000B1020E /* LoadFeedFromCacheUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		1CE50E4F2A85CBD000B1020E /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		1CE50E512A85CC2A00B1020E /* APIFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFeedItem.swift; sourceTree = "<group>"; };
 		1CE50E532A85CC7600B1020E /* LocalFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedItem.swift; sourceTree = "<group>"; };
+		1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				1CE50E4A2A848F2C00B1020E /* CacheFeedUseCaseTests.swift */,
+				1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				1C697A2F2A818E8600E4FDBB /* URLSessionHTTPClientTests.swift in Sources */,
 				1CE50E4B2A848F2C00B1020E /* CacheFeedUseCaseTests.swift in Sources */,
 				1C0523B12A82916D00383141 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
+				1CE50E562A8673A000B1020E /* LoadFeedFromCacheUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
