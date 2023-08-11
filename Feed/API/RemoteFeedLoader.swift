@@ -29,7 +29,7 @@ public class RemoteFeedLoader: FeedLoader {
                 if response.statusCode == 200 {
                     if let feedItemResponse = try? JSONDecoder().decode(APIFeedItemResponse.self, from: data) {
                         
-                        completion(.success(feedItemResponse.items.map(\.feedItem)))
+                        completion(.success(feedItemResponse.items.toModels()))
                     } else {
                         completion(.failure(Error.invalidData))
                     }
@@ -43,4 +43,10 @@ public class RemoteFeedLoader: FeedLoader {
         }
     }
 
+}
+
+extension Array where Element == APIFeedItem {
+    func toModels() -> [FeedItem] {
+        map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageUrl: $0.image) }
+    }
 }
