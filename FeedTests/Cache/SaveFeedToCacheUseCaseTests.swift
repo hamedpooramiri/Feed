@@ -94,23 +94,4 @@ final class SaveFeedToCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(capturedError as? NSError, expectedError, file: file, line: line)
     }
 
-    func uniqueFeedItem() -> FeedItem {
-        FeedItem(id: UUID(), description: "any description", location: "any location", imageUrl: anyURL())
-    }
-    
-    func uniqueFeeds() -> (models: [FeedItem], localItems: [LocalFeedItem]) {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
-        return (items, items.map {
-            LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageUrl: $0.imageUrl)
-        })
-    }
-
-    func anyURL() -> URL {
-        URL(string: "http://any-url.com")!
-    }
-    
-    func anyNSError() -> NSError {
-        NSError(domain: "any error", code: 0)
-    }
-
 }
