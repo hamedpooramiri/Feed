@@ -19,14 +19,6 @@ func uniqueFeeds() -> (models: [FeedItem], localItems: [LocalFeedItem]) {
     })
 }
 
-func anyNSError() -> NSError {
-    NSError(domain: "any error", code: 0)
-}
-
-func anyURL() -> URL {
-    URL(string: "http://any-url.com")!
-}
-
  extension Date {
     func add(by days: Int) -> Date {
         Calendar(identifier: .gregorian ).date(byAdding: .day, value: days, to: self)!
