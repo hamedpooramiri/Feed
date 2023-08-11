@@ -44,20 +44,3 @@ public class RemoteFeedLoader: FeedLoader {
     }
 
 }
-
-struct APIFeedItemResponse: Decodable {
-    let items: [APIFeedItem]
-}
-
-struct APIFeedItem: Decodable {
-
-     let id: UUID
-     let description: String?
-     let location: String?
-     let image: URL
-    
-    var feedItem: FeedItem {
-        FeedItem(id: id, description: description, location: location, imageUrl: image)
-    }
-
-}
