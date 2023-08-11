@@ -1,5 +1,5 @@
 //
-//  LocalFeedLoaderTests.swift
+//  CacheFeedUseCaseTests.swift
 //  FeedTests
 //
 //  Created by hamedpouramiri on 8/10/23.
@@ -8,7 +8,7 @@
 import XCTest
 import Feed
 
-final class LocalFeedLoaderTests: XCTestCase {
+final class CacheFeedUseCaseTests: XCTestCase {
 
     func test_notDeleteTheCacheOnCreation() {
         let (store, _) = makeSUT()
