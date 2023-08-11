@@ -41,14 +41,14 @@ final class LocalFeedLoaderTests: XCTestCase {
 
     func test_save_requestInsertionWithTimestampOnDeletionSuccessfully() {
         let currentData = Date()
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
+        let items = uniqueFeeds()
         let (store, sut) = makeSUT() { currentData }
 
-        expect(sut, withItems: items, toCompleteWithError: nil) {
+        expect(sut, withItems: items.models, toCompleteWithError: nil) {
             store.completeDeleteSuccessfully()
             store.completeInsertionSuccessfully()
         }
-        XCTAssertEqual(store.receivedMessages, [.deleteFeeds, .insertFeeds(items: items, timeStamp: currentData)])
+        XCTAssertEqual(store.receivedMessages, [.deleteFeeds, .insertFeeds(items: items.localItems, timeStamp: currentData)])
     }
 
     func test_save_afterDeallocatingSUTNotDeliverDeletionError() {
@@ -98,6 +98,13 @@ final class LocalFeedLoaderTests: XCTestCase {
         FeedItem(id: UUID(), description: "any description", location: "any location", imageUrl: anyURL())
     }
     
+    func uniqueFeeds() -> (models: [FeedItem], localItems: [LocalFeedItem]) {
+        let items = [uniqueFeedItem(), uniqueFeedItem()]
+        return (items, items.map {
+            LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageUrl: $0.imageUrl)
+        })
+    }
+
     func anyURL() -> URL {
         URL(string: "http://any-url.com")!
     }
@@ -110,7 +117,7 @@ final class LocalFeedLoaderTests: XCTestCase {
         
         enum ReceivedMessage: Equatable {
             case deleteFeeds
-            case insertFeeds(items: [FeedItem], timeStamp: Date)
+            case insertFeeds(items: [LocalFeedItem], timeStamp: Date)
         }
         
         var receivedMessages: [ReceivedMessage] = []
@@ -124,7 +131,7 @@ final class LocalFeedLoaderTests: XCTestCase {
             capturedDeleteCompletions.append(compeletion)
         }
         
-        func insert(feeds: [FeedItem], timeStamp: Date, completion: @escaping InsertCompletion) {
+        func insert(feeds: [LocalFeedItem], timeStamp: Date, completion: @escaping InsertCompletion) {
             capturedInsertionCompletions.append(completion)
             receivedMessages.append(.insertFeeds(items: feeds, timeStamp: timeStamp))
         }
