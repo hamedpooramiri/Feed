@@ -16,7 +16,7 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
         let _ = LocalFeedLoader(store: store) { currentDate }
         XCTAssertEqual(store.receivedMessages, [])
     }
-    
+     
     func test_load_cacheRetrieveError() {
         let (store, sut) = makeSUT()
         let expectedError = anyNSError()
@@ -54,17 +54,72 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
         }
     }
     
-    func test_load_eightDaysOldCache_DeliversNoItem() {
+    func test_load_moreThanSevenDaysOldCache_DeliversNoItem() {
         let currentDate = Date()
-        let sevenDaysTimeStamp = currentDate.add(by: -8)
+        let moreThanSevenDaysTimeStamp = currentDate.add(by: -7).add(by: -1)
         let items = uniqueFeeds()
         let (store, sut) = makeSUT { currentDate }
         expect(sut, toCompleteWithResult: .success([])) {
-            store.completeRetrieve(with: items.localItems, timeStamp: sevenDaysTimeStamp )
+            store.completeRetrieve(with: items.localItems, timeStamp: moreThanSevenDaysTimeStamp )
         }
     }
 
-    // MARK: Helper
+    func test_load_lessThanSevenDaysOldCache_notDeleteCache() {
+        let currentDate = Date()
+        let lessThanSevenDaysTimeStamp = currentDate.add(by: -7).add(by: 1)
+        let items = uniqueFeeds()
+        let (store, sut) = makeSUT { currentDate }
+        sut.load { _ in }
+        store.completeRetrieve(with: items.localItems, timeStamp: lessThanSevenDaysTimeStamp )
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_sevenDaysOldCache_deleteCache() {
+        let currentDate = Date()
+        let sevenDaysTimeStamp = currentDate.add(by: -7)
+        let items = uniqueFeeds()
+        let (store, sut) = makeSUT { currentDate }
+        sut.load { _ in }
+        store.completeRetrieve(with: items.localItems, timeStamp: sevenDaysTimeStamp)
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteFeeds])
+    }
+
+    func test_load_moreThanSevenDaysOldCache_deleteCache() {
+        let currentDate = Date()
+        let moreThanSevenDaysTimeStamp = currentDate.add(by: -7).add(by: -1)
+        let items = uniqueFeeds()
+        let (store, sut) = makeSUT { currentDate }
+        sut.load { _ in }
+        store.completeRetrieve(with: items.localItems, timeStamp: moreThanSevenDaysTimeStamp)
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteFeeds])
+    }
+
+    func test_load_cacheRetrieveError_deleteCache() {
+        let (store, sut) = makeSUT()
+        let expectedError = anyNSError()
+        sut.load { _ in }
+        store.completeRetrieve(with: expectedError)
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteFeeds])
+    }
+
+    func test_load_emptyCache_NotdeleteCache() {
+        let (store, sut) = makeSUT()
+        sut.load { _ in }
+        store.completeRetrieveWithEmptyCache()
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_afterDeallocationOfSUT_notDeliverResult() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
+        var capturedResult = [LocalFeedLoader.RetrieveResult]()
+        sut?.load { capturedResult.append($0) }
+        sut = nil
+        store.completeRetrieveWithEmptyCache()
+        XCTAssertTrue(capturedResult.isEmpty)
+    }
+
+    // MARK: - Helper
     
     func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (store: FeedStoreSpy, sut: LocalFeedLoader){
         let store = FeedStoreSpy()
