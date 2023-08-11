@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+public protocol FeedStore {
+    typealias DeleteCompletion = (Error?) -> Void
+    typealias InsertCompletion = (Error?) -> Void
+    func deleteFeeds(compeletion: @escaping DeleteCompletion)
+    func insert(feeds: [FeedItem], timeStamp: Date, completion: @escaping InsertCompletion)
+}
