@@ -1,5 +1,5 @@
 //
-//  CacheFeedUseCaseTests.swift
+//  SaveFeedToCacheUseCaseTests.swift
 //  FeedTests
 //
 //  Created by hamedpouramiri on 8/10/23.
@@ -8,7 +8,7 @@
 import XCTest
 import Feed
 
-final class CacheFeedUseCaseTests: XCTestCase {
+final class SaveFeedToCacheUseCaseTests: XCTestCase {
 
     func test_notDeleteTheCacheOnCreation() {
         let (store, _) = makeSUT()
