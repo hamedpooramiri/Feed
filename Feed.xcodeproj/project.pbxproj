@@ -190,6 +190,7 @@
 		1CE50E492A848E9B00B1020E /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				1CE50E572A86741C00B1020E /* Helper */,
 				1CE50E4A2A848F2C00B1020E /* CacheFeedUseCaseTests.swift */,
 				1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */,
 			);
@@ -204,6 +205,13 @@
 				1CE50E532A85CC7600B1020E /* LocalFeedItem.swift */,
 			);
 			path = Cache;
+			sourceTree = "<group>";
+		};
+		1CE50E572A86741C00B1020E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
