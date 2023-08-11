@@ -27,3 +27,9 @@ extension Array where Element == FeedItem {
         map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageUrl: $0.imageUrl) }
     }
 }
+
+extension Array where Element == LocalFeedItem {
+    func toModel() -> [FeedItem] {
+        map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageUrl: $0.imageUrl) }
+    }
+}
