@@ -44,9 +44,9 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
         }
     }
 
-    func test_load_sevenDaysOldCache_DeliversNoItem() {
+    func test_load_expiredCache_DeliversNoItem() {
         let currentDate = Date()
-        let sevenDaysTimeStamp = currentDate.add(by: -7)
+        let sevenDaysTimeStamp = currentDate.minFeedCacheMaxAge()
         let items = uniqueFeeds()
         let (store, sut) = makeSUT { currentDate }
         expect(sut, toCompleteWithResult: .success([])) {
@@ -54,9 +54,9 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
         }
     }
     
-    func test_load_moreThanSevenDaysOldCache_DeliversNoItem() {
+    func test_load_moreThanExpiredDaysCacheMaxAge_DeliversNoItem() {
         let currentDate = Date()
-        let moreThanSevenDaysTimeStamp = currentDate.add(by: -7).add(by: -1)
+        let moreThanSevenDaysTimeStamp = currentDate.minFeedCacheMaxAge().add(by: -1)
         let items = uniqueFeeds()
         let (store, sut) = makeSUT { currentDate }
         expect(sut, toCompleteWithResult: .success([])) {

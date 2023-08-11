@@ -20,9 +20,15 @@ func uniqueFeeds() -> (models: [FeedItem], localItems: [LocalFeedItem]) {
 }
 
  extension Date {
-    func add(by days: Int) -> Date {
+     
+     func minFeedCacheMaxAge() -> Date {
+         self.add(by: -7)
+     }
+     
+    private func add(by days: Int) -> Date {
         Calendar(identifier: .gregorian ).date(byAdding: .day, value: days, to: self)!
     }
+
     func add(by secends: TimeInterval) -> Date {
         self + secends
     }
