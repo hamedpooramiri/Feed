@@ -9,12 +9,12 @@ import Foundation
 
 public final class LocalFeedLoader {
 
-    private var store: FeedStoreProtocol
+    private var store: FeedStore
     private var currentDate: () -> Date
 
     public typealias SaveResult = Error?
 
-    public init(store: FeedStoreProtocol, currentDate: @escaping () -> Date) {
+    public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
     }
@@ -38,7 +38,7 @@ public final class LocalFeedLoader {
     }
 }
 
-public protocol FeedStoreProtocol {
+public protocol FeedStore {
     typealias DeleteCompletion = (Error?) -> Void
     typealias InsertCompletion = (Error?) -> Void
     func deleteFeeds(compeletion: @escaping DeleteCompletion)

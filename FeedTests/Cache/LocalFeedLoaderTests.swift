@@ -106,7 +106,7 @@ final class LocalFeedLoaderTests: XCTestCase {
         NSError(domain: "any error", code: 0)
     }
 
-    class FeedStoreSpy: FeedStoreProtocol {
+    class FeedStoreSpy: FeedStore {
         
         enum ReceivedMessage: Equatable {
             case deleteFeeds
