@@ -117,15 +117,40 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNotNil(deletionError, "expect to have an error")
     }
 
+    func test_storeSideEffects_runSerially() {
+        let sut = makeSUT()
+        var capturedOperationsInOrder = [XCTestExpectation]()
+
+        let op1 = expectation(description: "op1")
+        sut.insert(feeds: uniqueFeeds().localItems, timeStamp: Date()) { _ in
+            capturedOperationsInOrder.append(op1)
+            op1.fulfill()
+        }
+        
+        let op2 = expectation(description: "op2")
+        sut.insert(feeds: uniqueFeeds().localItems, timeStamp: Date()) { _ in
+            capturedOperationsInOrder.append(op2)
+            op2.fulfill()
+        }
+        
+        let op3 = expectation(description: "op3")
+        sut.insert(feeds: uniqueFeeds().localItems, timeStamp: Date()) { _ in
+            capturedOperationsInOrder.append(op3)
+            op3.fulfill()
+        }
+        waitForExpectations(timeout: 7)
+        XCTAssertEqual(capturedOperationsInOrder, [op1, op2, op3])
+    }
+
     // MARK: Helper
     
-    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? storeURLForTest())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
 
-    private func expect(_ sut: CodableFeedStore, toCompleteRetrieveWith expectedResult: FeedStoreRetrieveResult, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: FeedStore, toCompleteRetrieveWith expectedResult: FeedStoreRetrieveResult, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for retrieve")
         sut.retrieve { receivedresult in
             switch (receivedresult, expectedResult) {
@@ -144,13 +169,13 @@ final class CodableFeedStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
 
-    private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: FeedStoreRetrieveResult, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: FeedStoreRetrieveResult, file: StaticString = #filePath, line: UInt = #line) {
        expect(sut, toCompleteRetrieveWith: expectedResult, file: file, line: line)
        expect(sut, toCompleteRetrieveWith: expectedResult, file: file, line: line)
     }
 
     @discardableResult
-    private func insert(_ cache: (items: [LocalFeedItem], timeStamp: Date), to sut: CodableFeedStore, file: StaticString = #filePath, line: UInt = #line) -> Error? {
+    private func insert(_ cache: (items: [LocalFeedItem], timeStamp: Date), to sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) -> Error? {
         let exp = expectation(description: "wait to retrieve items")
         var capturedError: Error?
         sut.insert(feeds: cache.items, timeStamp: cache.timeStamp) { error in
@@ -161,7 +186,7 @@ final class CodableFeedStoreTests: XCTestCase {
         return capturedError
     }
 
-    private func deleteCache(from sut:CodableFeedStore) -> Error? {
+    private func deleteCache(from sut: FeedStore) -> Error? {
         let exp = expectation(description: "wating for deletion")
         var deletionError: Error?
         sut.deleteFeeds { error in
