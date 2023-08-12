@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class CodableFeedStore {
+public class CodableFeedStore: FeedStore {
 
     let storeURL: URL
 
@@ -38,7 +38,7 @@ public class CodableFeedStore {
         self.storeURL = storeURL
     }
 
-    public func insert(feeds: [LocalFeedItem], timeStamp: Date, completion: @escaping FeedStore.InsertCompletion) {
+    public func insert(feeds: [LocalFeedItem], timeStamp: Date, completion: @escaping InsertCompletion) {
         let feedItems = feeds.map(CodableFeedItem.init)
         let cache = Cache(feedItems: feedItems, timeStamp: timeStamp)
         do {
@@ -50,7 +50,7 @@ public class CodableFeedStore {
         }
     }
 
-   public func retrieve(completion: @escaping FeedStore.retrieveCompletion) {
+   public func retrieve(completion: @escaping retrieveCompletion) {
        do {
            guard let data = try? Data(contentsOf: storeURL) else {
                return completion(.empty)
@@ -62,7 +62,7 @@ public class CodableFeedStore {
        }
    }
 
-    public func deleteFeeds(completion: @escaping FeedStore.DeleteCompletion) {
+    public func deleteFeeds(completion: @escaping DeleteCompletion) {
         do {
             guard FileManager.default.fileExists(atPath: storeURL.path()) else {
                 return completion(nil)
