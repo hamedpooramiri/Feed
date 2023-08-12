@@ -9,14 +9,14 @@ import Foundation
 
 public class CodableFeedStore: FeedStore {
 
-    let storeURL: URL
+    private let storeURL: URL
 
-    struct Cache: Codable {
+   private struct Cache: Codable {
         var feedItems: [CodableFeedItem]
         var timeStamp: Date
     }
 
-    struct CodableFeedItem: Codable {
+    private struct CodableFeedItem: Codable {
         public let id: UUID
         public let description: String?
         public let location: String?
