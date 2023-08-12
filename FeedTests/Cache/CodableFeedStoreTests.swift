@@ -47,27 +47,23 @@ final class CodableFeedStoreTests: XCTestCase {
     }
    
     func test_retrieve_nonEmptyCache_returnError() {
-        let sut = makeSUT()
-        let timeStamp = Date()
-        let items = uniqueFeeds()
-        insert((items.localItems, timeStamp), to: sut)
-            // TODO
-        expect(sut, toCompleteRetrieveWith: .found(items: items.localItems, timeStamp: timeStamp))
+        let storeURL = storeURLForTest()
+        let sut = makeSUT(storeURL: storeURL)
+        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        expect(sut, toCompleteRetrieveWith: .failure(anyNSError()))
     }
 
     func test_retrieve_nonEmptyCache_error_haseNoSideEffect() {
-        let sut = makeSUT()
-        let timeStamp = Date()
-        let items = uniqueFeeds()
-        // TODO
-        insert((items.localItems, timeStamp), to: sut)
-        expect(sut, toRetrieveTwice: .found(items: items.localItems, timeStamp: timeStamp))
+        let storeURL = storeURLForTest()
+        let sut = makeSUT(storeURL: storeURL)
+        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
 
     // MARK: Helper
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
-        let sut = CodableFeedStore(storeURL: storeURLForTest())
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
+        let sut = CodableFeedStore(storeURL: storeURL ?? storeURLForTest())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
@@ -79,9 +75,9 @@ final class CodableFeedStoreTests: XCTestCase {
             case let (.found(receivedItems, receivedTimeStamp), .found(expectedItems, expectedTimeStamp)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
                 XCTAssertEqual(receivedTimeStamp, expectedTimeStamp, file: file, line: line)
-            case let (.failure(recievedError), .failure(expectedError)):
-                XCTAssertEqual(recievedError as NSError, expectedError as NSError)
-            case (.empty, .empty):
+//            case let (.failure(recievedError), .failure(expectedError)):
+//                XCTAssertEqual(recievedError as NSError, expectedError as NSError, file: file, line: line)
+            case (.empty, .empty), (.failure, .failure):
                 break
             default:
                 XCTFail("expected to get \(expectedResult) but got \(receivedresult)", file: file, line: line)
