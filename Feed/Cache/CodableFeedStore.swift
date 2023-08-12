@@ -39,10 +39,15 @@ public class CodableFeedStore {
     }
 
     public func insert(feeds: [LocalFeedItem], timeStamp: Date, completion: @escaping FeedStore.InsertCompletion) {
-        let codablefeeds = feeds.map(CodableFeedItem.init)
-        let jsonEncoded = try! JSONEncoder().encode(Cache(feedItems: codablefeeds, timeStamp: timeStamp))
-        try! jsonEncoded.write(to: storeURL)
-        completion(nil)
+        let feedItems = feeds.map(CodableFeedItem.init)
+        let cache = Cache(feedItems: feedItems, timeStamp: timeStamp)
+        do {
+            let jsonEncoded = try JSONEncoder().encode(cache)
+            try jsonEncoded.write(to: storeURL)
+            completion(nil)
+        } catch{
+           completion(error)
+        }
     }
 
    public func retrieve(completion: @escaping FeedStore.retrieveCompletion) {

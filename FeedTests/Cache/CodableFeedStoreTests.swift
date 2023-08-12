@@ -30,7 +30,7 @@ final class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieveTwice: .empty)
     }
 
-    func test_retrieve_nonEmptyCache_returnData() {
+    func test_retrieve_afterInsertingToNonEmptyCache_returnData() {
         let sut = makeSUT()
         let timeStamp = Date()
         let items = uniqueFeeds()
@@ -46,7 +46,7 @@ final class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieveTwice: .found(items: items.localItems, timeStamp: timeStamp))
     }
    
-    func test_retrieve_nonEmptyCache_returnError() {
+    func test_retrieve_nonEmptyCache_onErrorDeliverError() {
         let storeURL = storeURLForTest()
         let sut = makeSUT(storeURL: storeURL)
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
@@ -58,6 +58,36 @@ final class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT(storeURL: storeURL)
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         expect(sut, toRetrieveTwice: .failure(anyNSError()))
+    }
+
+    func test_insert_toEmptyCache_insertData() {
+        let sut = makeSUT()
+        let items = uniqueFeeds()
+        let timeStamp = Date()
+        let insertionError = insert((items: items.localItems, timeStamp: timeStamp), to: sut)
+        XCTAssertNil(insertionError, "expect to insert data Succesfully")
+        
+        expect(sut, toCompleteRetrieveWith: .found(items: items.localItems, timeStamp: timeStamp))
+    }
+
+    func test_insert_toNonEmptyCache_overridePreviousData() {
+        let sut = makeSUT()
+        let firstInsertionError = insert((items: uniqueFeeds().localItems, timeStamp: Date()), to: sut)
+        XCTAssertNil(firstInsertionError, "expect to insert data Succesfully")
+        
+        let items = uniqueFeeds()
+        let timeStamp = Date()
+        let lastInsertionError = insert((items: items.localItems, timeStamp: timeStamp), to: sut)
+        XCTAssertNil(lastInsertionError, "expect to override data Succesfully")
+        
+        expect(sut, toCompleteRetrieveWith: .found(items: items.localItems, timeStamp: timeStamp))
+    }
+    
+    func test_insert_onInsertionErrorDeliverError() {
+        let invalidStoreURL = URL(string: "invalid://store-url")
+        let sut = makeSUT(storeURL: invalidStoreURL)
+        let insertionError = insert((items: uniqueFeeds().localItems, timeStamp: Date()), to: sut)
+        XCTAssertNotNil(insertionError, "expect to deliver Error")
     }
 
     // MARK: Helper
@@ -92,13 +122,16 @@ final class CodableFeedStoreTests: XCTestCase {
        expect(sut, toCompleteRetrieveWith: expectedResult, file: file, line: line)
     }
 
-    private func insert(_ cache: (items: [LocalFeedItem], timeStamp: Date), to sut: CodableFeedStore, file: StaticString = #filePath, line: UInt = #line) {
+    @discardableResult
+    private func insert(_ cache: (items: [LocalFeedItem], timeStamp: Date), to sut: CodableFeedStore, file: StaticString = #filePath, line: UInt = #line) -> Error? {
         let exp = expectation(description: "wait to retrieve items")
+        var capturedError: Error?
         sut.insert(feeds: cache.items, timeStamp: cache.timeStamp) { error in
-            XCTAssertNil(error, file: file, line: line)
+            capturedError = error
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1)
+        return capturedError
     }
 
     private func setUpEmptyStoreState() {
