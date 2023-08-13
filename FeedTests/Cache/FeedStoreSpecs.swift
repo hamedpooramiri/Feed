@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// any FeedStore concrete implementation Tests must implement this Protocol,
+/// provide structure for TestCases
 protocol FeedStoreSpecs {
 
      func test_retrieve_emptyCache_deliverEmpty()
@@ -48,4 +50,6 @@ protocol FailableDeleteFeedStoreSpecs: FeedStoreSpecs {
     func test_delete_hasNoSideEffectOnDeletionError()
 }
 
+/// any FeedStore concrete implementation Tests can implement this typealias,
+/// provide structure for TestCases
 typealias FailableFeedStoreSpec = FailableRetrieveFeedStoreSpecs & FailableInsertionFeedStoreSpecs & FailableDeleteFeedStoreSpecs
