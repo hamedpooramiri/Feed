@@ -151,8 +151,16 @@
 		1C35987B2A89893900E59922 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				1C35987D2A8989B100E59922 /* CoreData */,
 			);
 			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		1C35987D2A8989B100E59922 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		1C697A292A81533500E4FDBB /* API */ = {
