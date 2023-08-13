@@ -140,6 +140,10 @@
 		1C35987A2A8984D100E59922 /* FeedStore */ = {
 			isa = PBXGroup;
 			children = (
+				1C2F05212A87D5A000C218A9 /* CodableFeedStoreTests.swift */,
+				1C3598772A89829B00E59922 /* CoreDataFeedStoreTests.swift */,
+				1C3598732A8876A100E59922 /* FeedStoreSpecs.swift */,
+				1C3598752A89538900E59922 /* XCTestCase+FeedStoreSpecs.swift */,
 			);
 			path = FeedStore;
 			sourceTree = "<group>";
@@ -231,10 +235,6 @@
 				1CE50E572A86741C00B1020E /* Helper */,
 				1C3598792A89840800E59922 /* LocalFeedLoader */,
 				1C35987A2A8984D100E59922 /* FeedStore */,
-				1C2F05212A87D5A000C218A9 /* CodableFeedStoreTests.swift */,
-				1C3598772A89829B00E59922 /* CoreDataFeedStoreTests.swift */,
-				1C3598732A8876A100E59922 /* FeedStoreSpecs.swift */,
-				1C3598752A89538900E59922 /* XCTestCase+FeedStoreSpecs.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
