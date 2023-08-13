@@ -127,6 +127,13 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		1C3598792A89840800E59922 /* LocalFeedLoader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LocalFeedLoader;
+			sourceTree = "<group>";
+		};
 		1C697A292A81533500E4FDBB /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +218,7 @@
 		1CE50E492A848E9B00B1020E /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				1C3598792A89840800E59922 /* LocalFeedLoader */,
 				1CE50E572A86741C00B1020E /* Helper */,
 				1CE50E4A2A848F2C00B1020E /* SaveFeedToCacheUseCaseTests.swift */,
 				1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */,
