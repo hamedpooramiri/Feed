@@ -9,10 +9,10 @@ import XCTest
 import Feed
 
 class CoreDataFeedStore: FeedStore {
-    
-    let context: NSManagedObjectContext
-    let container: NSPersistentContainer
-    
+//
+//    let context: NSManagedObjectContext
+//    let container: NSPersistentContainer
+//
     init(storeURL: URL, bundle: Bundle = .main) {
 
     }
