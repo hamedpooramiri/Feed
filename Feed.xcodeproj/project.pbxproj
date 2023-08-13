@@ -148,6 +148,13 @@
 			path = FeedStore;
 			sourceTree = "<group>";
 		};
+		1C35987B2A89893900E59922 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
 		1C697A292A81533500E4FDBB /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +249,7 @@
 		1CE50E4C2A8574C300B1020E /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				1C35987B2A89893900E59922 /* Infrastructure */,
 				1CE50E4D2A8574F400B1020E /* LocalFeedLoader.swift */,
 				1CE50E4F2A85CBD000B1020E /* FeedStore.swift */,
 				1CE50E532A85CC7600B1020E /* LocalFeedItem.swift */,
