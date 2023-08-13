@@ -65,7 +65,7 @@
 		1C3598732A8876A100E59922 /* FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpecs.swift; sourceTree = "<group>"; };
 		1C3598752A89538900E59922 /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
 		1C3598772A89829B00E59922 /* CoreDataFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFeedStoreTests.swift; sourceTree = "<group>"; };
-		1C53547B2A86C6A7007B093D /* ValidateCacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ValidateCacheFeedUseCaseTests.swift; path = FeedTests/Cache/ValidateCacheFeedUseCaseTests.swift; sourceTree = SOURCE_ROOT; };
+		1C53547B2A86C6A7007B093D /* ValidateCacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ValidateCacheFeedUseCaseTests.swift; path = FeedTests/Cache/LocalFeedLoader/ValidateCacheFeedUseCaseTests.swift; sourceTree = SOURCE_ROOT; };
 		1C53547D2A86C8FE007B093D /* FeedCacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheHelper.swift; sourceTree = "<group>"; };
 		1C697A212A8077C500E4FDBB /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		1C697A232A807B7300E4FDBB /* RemoteFeedLoaderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTest.swift; sourceTree = "<group>"; };
@@ -130,6 +130,9 @@
 		1C3598792A89840800E59922 /* LocalFeedLoader */ = {
 			isa = PBXGroup;
 			children = (
+				1CE50E4A2A848F2C00B1020E /* SaveFeedToCacheUseCaseTests.swift */,
+				1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */,
+				1C53547B2A86C6A7007B093D /* ValidateCacheFeedUseCaseTests.swift */,
 			);
 			path = LocalFeedLoader;
 			sourceTree = "<group>";
@@ -218,11 +221,8 @@
 		1CE50E492A848E9B00B1020E /* Cache */ = {
 			isa = PBXGroup;
 			children = (
-				1C3598792A89840800E59922 /* LocalFeedLoader */,
 				1CE50E572A86741C00B1020E /* Helper */,
-				1CE50E4A2A848F2C00B1020E /* SaveFeedToCacheUseCaseTests.swift */,
-				1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */,
-				1C53547B2A86C6A7007B093D /* ValidateCacheFeedUseCaseTests.swift */,
+				1C3598792A89840800E59922 /* LocalFeedLoader */,
 				1C2F05212A87D5A000C218A9 /* CodableFeedStoreTests.swift */,
 				1C3598732A8876A100E59922 /* FeedStoreSpecs.swift */,
 				1C3598752A89538900E59922 /* XCTestCase+FeedStoreSpecs.swift */,
