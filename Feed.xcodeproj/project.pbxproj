@@ -161,6 +161,7 @@
 		1C35987B2A89893900E59922 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				1C3598A12A8A6AD000E59922 /* Codable */,
 				1C35987D2A8989B100E59922 /* CoreData */,
 			);
 			path = Infrastructure;
@@ -176,6 +177,13 @@
 				1C35989F2A89AD8600E59922 /* CoreDataFeedStore.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		1C3598A12A8A6AD000E59922 /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Codable;
 			sourceTree = "<group>";
 		};
 		1C697A292A81533500E4FDBB /* API */ = {
