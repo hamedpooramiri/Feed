@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "A60A5670-A89C-4F38-BD00-8EB4916360D5",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Feed.xcodeproj",
+          "identifier" : "1C9226AD2A80681400DFB9D6",
+          "name" : "Feed"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1C3598C32A8A705A00E59922",
+        "name" : "FeedCacheIntegrationTests"
+      }
+    }
+  ],
+  "version" : 1
+}
