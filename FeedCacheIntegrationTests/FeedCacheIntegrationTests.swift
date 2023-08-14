@@ -6,30 +6,92 @@
 //
 
 import XCTest
+import Feed
 
 final class FeedCacheIntegrationTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() {
+        super.setUp()
+        setUpEmptyStoreState()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        super.tearDown()
+        undoStoreSideEffects()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func test_load_emptyCache_deliversNoItems() {
+        let sut = makeSUT()
+        expect(sut, toLoad: [])
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func test_load_nonEmptyCache_seprateInstanceDeliversItems() {
+        let insertSut = makeSUT()
+        let expectedItems = uniqueFeeds().models
+        save(items: expectedItems, with: insertSut)
+
+        let loadSut = makeSUT()
+        expect(loadSut, toLoad: expectedItems)
+    }
+
+    func test_save_overridesItemsSavedBySeprateInstance() {
+        let sutToPerformFirstSave = makeSUT()
+        let sutToPerformLastSave = makeSUT()
+        let sutToPerformLoad = makeSUT()
+        let firstItems = uniqueFeeds().models
+        let lastItems = uniqueFeeds().models
+        
+        save(items: firstItems, with: sutToPerformFirstSave)
+        save(items: lastItems, with: sutToPerformLastSave)
+        expect(sutToPerformLoad, toLoad: lastItems)
+    }
+
+    //MARK: Helpers
+    func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> LocalFeedLoader {
+        let storeURL = storeURLForTest()
+        let store = try! CoreDataFeedStore(storeURL: storeURL)
+        let sut = LocalFeedLoader(store: store, currentDate: Date.init)
+        trackForMemoryLeaks(store, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return sut
+    }
+
+    func expect(_ sut: LocalFeedLoader, toLoad expectedItems: [FeedItem], file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for load from cache")
+        sut.load { result in
+            switch result {
+            case let .success(recievedItems):
+                XCTAssertEqual(recievedItems, expectedItems, "expected to get \(expectedItems), but got \(recievedItems)", file: file, line: line)
+            case let .failure(error):
+                XCTAssertNil(error, "expected to get success result, but got error \(error)", file: file, line: line)
+            }
+            exp.fulfill()
         }
+        wait(for: [exp], timeout: 1)
     }
 
+    func save(items: [FeedItem], with sut: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for load from cache")
+        sut.save(items: items) { error  in
+            XCTAssertNil(error, "expect to save Data Successfully but got error: \(String(describing: error))", file: file, line: line)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
+    }
+
+    private func storeURLForTest() -> URL {
+        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appending(path: "\(type(of: self)).store")
+    }
+
+    private func setUpEmptyStoreState() {
+        deleteStoreArtifacts()
+    }
+
+    private func undoStoreSideEffects() {
+        deleteStoreArtifacts()
+    }
+
+    private func deleteStoreArtifacts() {
+        try? FileManager.default.removeItem(at: storeURLForTest())
+    }
 }
