@@ -52,4 +52,4 @@ protocol FailableDeleteFeedStoreSpecs: FeedStoreSpecs {
 
 /// any FeedStore concrete implementation Tests can implement this typealias,
 /// provide structure for TestCases
-typealias FailableFeedStoreSpec = FailableRetrieveFeedStoreSpecs & FailableInsertionFeedStoreSpecs & FailableDeleteFeedStoreSpecs
+typealias FailableFeedStoreSpecs = FailableRetrieveFeedStoreSpecs & FailableInsertionFeedStoreSpecs & FailableDeleteFeedStoreSpecs
