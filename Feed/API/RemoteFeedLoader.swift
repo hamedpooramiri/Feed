@@ -17,12 +17,14 @@ public class RemoteFeedLoader: FeedLoader {
         case connectivity
     }
     
+    public typealias loadResult = FeedLoader.Result
+
     public init(url: URL, client: HttpClient) {
         self.url = url
         self.client = client
     }
     
-    public func load(completion: @escaping (LoadFeedResult) -> Void) {
+    public func load(completion: @escaping (loadResult) -> Void) {
         client.get(from: url) { [weak self] result in
             guard self != nil else { return }
             if case let .success(data, response) = result {
