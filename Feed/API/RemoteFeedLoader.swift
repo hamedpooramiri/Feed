@@ -27,7 +27,7 @@ public class RemoteFeedLoader: FeedLoader {
     public func load(completion: @escaping (loadResult) -> Void) {
         client.get(from: url) { [weak self] result in
             guard self != nil else { return }
-            if case let .success(data, response) = result {
+            if case let .success((data, response)) = result {
                 if response.statusCode == 200 {
                     if let feedItemResponse = try? JSONDecoder().decode(APIFeedItemResponse.self, from: data) {
                         

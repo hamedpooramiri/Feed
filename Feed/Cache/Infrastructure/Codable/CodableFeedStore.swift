@@ -21,43 +21,35 @@ public class CodableFeedStore: FeedStore {
         queue.async(flags: .barrier) {
             let feedItems = feeds.map(CodableFeedItem.init)
             let cache = Cache(feedItems: feedItems, timeStamp: timeStamp)
-            do {
+            completion(Result(catching: {
                 let jsonEncoded = try JSONEncoder().encode(cache)
                 try jsonEncoded.write(to: storeURL)
-                completion(nil)
-            } catch{
-                completion(error)
-            }
+            }))
         }
     }
 
-   public func retrieve(completion: @escaping retrieveCompletion) {
-       let storeURL = storeURL
-       queue.async {
-           do {
-               guard let data = try? Data(contentsOf: storeURL) else {
-                   return completion(.empty)
-               }
-               let cache = try JSONDecoder().decode(Cache.self, from: data)
-               completion(.found(items: cache.feedItems.map(\.localFeed), timeStamp: cache.timeStamp))
-           } catch {
-               completion(.failure(error))
-           }
-       }
-   }
+    public func retrieve(completion: @escaping retrieveCompletion) {
+        let storeURL = storeURL
+        queue.async {
+            completion(RetrieveResult(catching: {
+                guard let data = try? Data(contentsOf: storeURL) else {
+                    return .none
+                }
+                let cache = try JSONDecoder().decode(Cache.self, from: data)
+                return (items: cache.feedItems.map(\.localFeed), timeStamp: cache.timeStamp)
+            }))
+        }
+    }
 
     public func deleteFeeds(completion: @escaping DeleteCompletion) {
         let storeURL = self.storeURL
         queue.async(flags: .barrier) {
-            do {
+            completion(Result {
                 guard FileManager.default.fileExists(atPath: storeURL.path()) else {
-                    return completion(nil)
+                    return
                 }
                 try FileManager.default.removeItem(at: storeURL)
-                completion(nil)
-            } catch {
-                completion(error)
-            }
+            })
         }
     }
 }

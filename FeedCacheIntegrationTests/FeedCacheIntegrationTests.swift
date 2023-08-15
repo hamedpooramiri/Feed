@@ -72,8 +72,14 @@ final class FeedCacheIntegrationTests: XCTestCase {
 
     func save(items: [FeedItem], with sut: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for load from cache")
-        sut.save(items: items) { error  in
-            XCTAssertNil(error, "expect to save Data Successfully but got error: \(String(describing: error))", file: file, line: line)
+        sut.save(items: items) { result  in
+            switch result {
+            case .failure(let error):
+                XCTAssertNil(error, "expect to save Data Successfully but got error: \(String(describing: error))", file: file, line: line)
+            default:
+                break
+            }
+            
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1)

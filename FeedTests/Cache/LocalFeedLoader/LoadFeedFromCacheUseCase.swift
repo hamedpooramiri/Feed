@@ -77,7 +77,7 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
     func test_load_afterDeallocationOfSUT_notDeliverResult() {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
-        var capturedResult = [LocalFeedLoader.RetrieveResult]()
+        var capturedResult = [LocalFeedLoader.Result]()
         sut?.load { capturedResult.append($0) }
         sut = nil
         store.completeRetrieveWithEmptyCache()
@@ -94,7 +94,7 @@ final class LoadFeedFromCacheUseCase: XCTestCase {
         return (store, sut)
     }
 
-    func expect(_ sut: LocalFeedLoader, toCompleteWithResult expectedResult: LoadFeedResult, when action: @escaping ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
+    func expect(_ sut: LocalFeedLoader, toCompleteWithResult expectedResult: LocalFeedLoader.Result, when action: @escaping ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for save")
         sut.load { receivedResult in
             switch (receivedResult, expectedResult) {

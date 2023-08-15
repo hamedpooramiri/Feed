@@ -85,8 +85,13 @@ final class SaveFeedToCacheUseCaseTests: XCTestCase {
     func expect(_ sut: LocalFeedLoader, withItems items: [FeedItem], toCompleteWithError expectedError: NSError?, when action: @escaping ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for save")
         var capturedError: Error?
-        sut.save(items: items) { error in
-            capturedError = error
+        sut.save(items: items) { result in
+            switch result {
+            case .failure(let error):
+                capturedError = error
+            default:
+                break
+            }
             exp.fulfill()
         }
         action()

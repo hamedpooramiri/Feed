@@ -34,40 +34,30 @@ public class CoreDataFeedStore: FeedStore {
     
     public func deleteFeeds(completion: @escaping DeleteCompletion) {
         perform { context in
-            do {
+            completion(DeleteResult {
                 try ManagedCache.deleteCache(in: context)
-                completion(nil)
-            } catch {
-                completion(error)
-            }
+            })
         }
     }
     
     public func insert(feeds: [Feed.LocalFeedItem], timeStamp: Date, completion: @escaping InsertCompletion) {
         perform { context in
-            do {
+            completion(InsertResult {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timeStamp
                 managedCache.feed = ManagedFeedItem.item(from: feeds, in: context)
                 try context.save()
-                completion(nil)
-            } catch {
-                completion(error)
-            }
+            })
         }
     }
     
     public func retrieve(completion: @escaping retrieveCompletion) {
         perform { context in
-            do {
-                if let cache = try ManagedCache.find(in: context) {
-                    completion(.found(items: cache.localFeed, timeStamp: cache.timestamp))
-                } else {
-                    completion(.empty)
+            completion(RetrieveResult(catching: {
+                try ManagedCache.find(in: context).map { cache in
+                     return (items: cache.localFeed, timeStamp: cache.timestamp)
                 }
-            } catch {
-                completion(.failure(error))
-            }
+            }))
         }
     }
     

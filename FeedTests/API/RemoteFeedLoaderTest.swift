@@ -103,7 +103,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
         let client = HTTPClientSpy()
         var sut: RemoteFeedLoader? = makeSUT(url: url, client: client)
 
-        var capturedResults = [LoadFeedResult]()
+        var capturedResults = [RemoteFeedLoader.Result]()
         sut?.load { capturedResults.append($0) }
 
         sut = nil
@@ -114,7 +114,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
     
     //MARK: - Helper
     
-    func exp(_ sut: RemoteFeedLoader, toCompleteWith expectedResult: LoadFeedResult, when action: ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
+    func exp(_ sut: RemoteFeedLoader, toCompleteWith expectedResult: RemoteFeedLoader.loadResult, when action: ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
 
         let exp = expectation(description: "wait for load completion")
         sut.load { receivedResult in
@@ -158,9 +158,9 @@ final class RemoteFeedLoaderTest: XCTestCase {
     
     private class HTTPClientSpy: HttpClient {
 
-        var requestedURLs = [(url: URL, completion: (HTTPClientResult) -> Void)]()
+        var requestedURLs = [(url: URL, completion: (HttpClient.Result) -> Void)]()
 
-        func get(from url: URL, completion:  @escaping (HTTPClientResult) -> Void) {
+        func get(from url: URL, completion:  @escaping (HttpClient.Result) -> Void) {
             requestedURLs.append((url, completion))
         }
 
@@ -173,7 +173,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
                                            statusCode: code,
                                            httpVersion: nil,
                                            headerFields: nil)!
-            requestedURLs[index].completion(.success(data, response))
+            requestedURLs[index].completion(.success((data, response)))
         }
         
     }
