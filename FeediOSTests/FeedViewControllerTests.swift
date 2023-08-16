@@ -7,31 +7,8 @@
 
 import XCTest
 import Feed
+import FeediOS
 import UIKit
-
-class FeedViewController: UITableViewController {
-
-    private var loader: FeedLoader?
-    
-    convenience init(loader: FeedLoader) {
-        self.init()
-        self.loader = loader
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        loader?.load { [weak self] _ in
-            self?.refreshControl?.endRefreshing()
-        }
-    }
-}
 
 final class FeedViewControllerTests: XCTestCase {
 
@@ -53,15 +30,41 @@ final class FeedViewControllerTests: XCTestCase {
         let (loader, sut) = makeSUT()
         sut.loadViewIfNeeded()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "expect to show loadingIndicator when loadinFeeds after view is loaded")
-        loader.completeLoadingSuccessfully()
+        loader.completeLoading()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "expect to hide loadingIndicator after getting new Feeds")
         
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "expect to show loadingIndicator when user request to reload Feeds")
-        loader.completeLoadingSuccessfully(at: 1)
+        loader.completeLoading(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "expect to hide loadingIndicator after getting new Feeds")
     }
 
+    func test_load_renderNoItems() {
+        let item = makefeedItem(description: "a description", location: "a location")
+        let items = [
+            makefeedItem(description: "a description", location: "a location"),
+            makefeedItem(description: "a description"),
+            makefeedItem(location: "a location")
+        ]
+
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: .success([]))
+        assertThat(sut, isRendering: [])
+
+        
+        sut.simulateUserInitiatedFeedReload()
+        loader.completeLoading(with: .success([item]), at: 1)
+        assertThat(sut, isRendering: [item])
+        
+       
+        sut.simulateUserInitiatedFeedReload()
+        loader.completeLoading(with: .success(items), at: 2)
+        assertThat(sut, isRendering: items)
+        
+    }
+
+    
     //MARK:  Helper
     
     func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (loader: LoaderSpy, sut: FeedViewController) {
@@ -70,6 +73,29 @@ final class FeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (loader, sut)
+    }
+
+    func assertThat(_ sut: FeedViewController, isRendering items: [FeedItem], file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(sut.numberOfRenderedFeed, items.count, "expect 'numberOfRenderedFeed' to be \(items.count)", file: file, line: line)
+        items.forEach { item in
+            assertThat(sut, hasViewConfiguredFor: item, file: file, line: line)
+        }
+    }
+
+    func assertThat(_ sut: FeedViewController, hasViewConfiguredFor item: FeedItem, at index: Int = 0, file: StaticString = #filePath, line: UInt = #line){
+        let view = sut.feedItemCell(at: index)
+        guard let cellView = view as? FeedItemCell else {
+            return XCTFail("expect \(FeedItemCell.self) instance, but got \(String(describing: view)) instade", file: file, line: line)
+        }
+        let shouldLocationBeVisible = (item.location != nil)
+        XCTAssertEqual(cellView.isShowingLocation, shouldLocationBeVisible, "expect 'isShowingLocation' to be \(shouldLocationBeVisible) for item at index: \(index)", file: file, line: line)
+        XCTAssertEqual(cellView.descriptionText, item.description, "expect description to be \(String(describing: item.description)) for item at index: \(index)", file: file, line: line)
+        XCTAssertEqual(cellView.locationText, item.location, "expect location to be \(String(describing: item.location)) for item at index: \(index)", file: file, line: line)
+        
+    }
+
+    func makefeedItem(description: String? = nil, location: String? = nil, imageUrl: URL = URL(string: "http://any-url.com")!) -> FeedItem {
+        FeedItem(id: UUID(), description: description, location: location, imageUrl: imageUrl)
     }
 
     class LoaderSpy: FeedLoader {
@@ -85,8 +111,12 @@ final class FeedViewControllerTests: XCTestCase {
             capturedLoadCompletions.append(completion)
         }
 
-        func completeLoadingSuccessfully(at index: Int = 0) {
+        func completeLoading(at index: Int = 0) {
             capturedLoadCompletions[index](.success([]))
+        }
+
+        func completeLoading(with result: FeedLoader.Result, at index: Int = 0) {
+            capturedLoadCompletions[index](result)
         }
     }
 }
@@ -101,6 +131,32 @@ private extension FeedViewController {
     
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+
+    var numberOfRenderedFeed: Int {
+        tableView.numberOfRows(inSection: feedSection)
+    }
+
+    private var feedSection: Int {
+        return 0
+    }
+
+    func feedItemCell(at index: Int) -> UITableViewCell? {
+        let ds = tableView.dataSource
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: index, section: feedSection))
+    }
+
+}
+
+private extension FeedItemCell {
+    var isShowingLocation: Bool {
+        !locationContainer .isHidden
+    }
+    var locationText: String? {
+        locationLabel.text
+    }
+    var descriptionText: String? {
+        descriptionLabel.text
     }
 }
 
