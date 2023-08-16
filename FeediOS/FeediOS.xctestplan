@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "2E9F5736-AB9B-494A-BCC9-65153BDECBD5",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1CD91EA32A8D050000A7FC3E",
+        "name" : "FeediOSTests"
+      }
+    }
+  ],
+  "version" : 1
+}
