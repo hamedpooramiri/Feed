@@ -38,7 +38,6 @@
 		1CAD68E92A8AB675009825E0 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2F051D2A86D96C00C218A9 /* SharedTestHelpers.swift */; };
 		1CD91E9F2A8D050000A7FC3E /* FeediOS.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1CD91E9E2A8D050000A7FC3E /* FeediOS.docc */; };
 		1CD91EA52A8D050000A7FC3E /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CD91E9B2A8D050000A7FC3E /* FeediOS.framework */; };
-		1CD91EAA2A8D050000A7FC3E /* FeediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD91EA92A8D050000A7FC3E /* FeediOSTests.swift */; };
 		1CD91EAB2A8D050000A7FC3E /* FeediOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD91E9D2A8D050000A7FC3E /* FeediOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CE50E342A82D7E900B1020E /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E332A82D7E900B1020E /* URLSessionHTTPClient.swift */; };
 		1CE50E3D2A82F0C200B1020E /* FeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E3C2A82F0C200B1020E /* FeedAPIEndToEndTests.swift */; };
@@ -117,7 +116,6 @@
 		1CD91E9D2A8D050000A7FC3E /* FeediOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeediOS.h; sourceTree = "<group>"; };
 		1CD91E9E2A8D050000A7FC3E /* FeediOS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = FeediOS.docc; sourceTree = "<group>"; };
 		1CD91EA42A8D050000A7FC3E /* FeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1CD91EA92A8D050000A7FC3E /* FeediOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeediOSTests.swift; sourceTree = "<group>"; };
 		1CD91EB22A8D05EB00A7FC3E /* CI_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI_iOS.xctestplan; sourceTree = "<group>"; };
 		1CE50E332A82D7E900B1020E /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		1CE50E352A82EB8F00B1020E /* Feed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Feed.xctestplan; sourceTree = "<group>"; };
@@ -343,7 +341,6 @@
 		1CD91EA82A8D050000A7FC3E /* FeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				1CD91EA92A8D050000A7FC3E /* FeediOSTests.swift */,
 			);
 			path = FeediOSTests;
 			sourceTree = "<group>";
@@ -684,7 +681,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CD91EAA2A8D050000A7FC3E /* FeediOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
