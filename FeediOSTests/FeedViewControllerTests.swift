@@ -26,7 +26,7 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3, "expect to loadFeeds when user initiate a Reload request again")
     }
     
-    func test_loadingIndicator_showWhenLoadingFeed() {
+    func test_load_showLoadingIndicatorWhenLoadingFeed() {
         let (loader, sut) = makeSUT()
         sut.loadViewIfNeeded()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "expect to show loadingIndicator when loadinFeeds after view is loaded")
@@ -37,9 +37,15 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.isShowingLoadingIndicator, "expect to show loadingIndicator when user request to reload Feeds")
         loader.completeLoading(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "expect to hide loadingIndicator after getting new Feeds")
+        
+        sut.simulateUserInitiatedFeedReload()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "expect to show loadingIndicator when user request to reload Feeds")
+        let error = NSError(domain: "an error", code: 0)
+        loader.completeLoadingWithError(error: error,at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "expect to hide loadingIndicator after getting an error")
     }
 
-    func test_load_renderNoItems() {
+    func test_loadCompletion_renderItems() {
         let item = makefeedItem(description: "a description", location: "a location")
         let items = [
             makefeedItem(description: "a description", location: "a location"),
@@ -49,21 +55,31 @@ final class FeedViewControllerTests: XCTestCase {
 
         let (loader, sut) = makeSUT()
         sut.loadViewIfNeeded()
-        loader.completeLoading(with: .success([]))
+        loader.completeLoading()
         assertThat(sut, isRendering: [])
-
         
         sut.simulateUserInitiatedFeedReload()
-        loader.completeLoading(with: .success([item]), at: 1)
+        loader.completeLoading(with: [item], at: 1)
         assertThat(sut, isRendering: [item])
-        
        
         sut.simulateUserInitiatedFeedReload()
-        loader.completeLoading(with: .success(items), at: 2)
+        loader.completeLoading(with: items, at: 2)
         assertThat(sut, isRendering: items)
         
     }
 
+    func test_load_doseNotAlterCurrentRenderingStateOnError() {
+        let feed = [makefeedItem()]
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: feed)
+        assertThat(sut, isRendering: feed)
+
+        sut.simulateUserInitiatedFeedReload()
+        let error = NSError(domain: "an error", code: 0)
+        loader.completeLoadingWithError(error: error, at: 1)
+        assertThat(sut, isRendering: feed)
+    }
     
     //MARK:  Helper
     
@@ -77,8 +93,8 @@ final class FeedViewControllerTests: XCTestCase {
 
     func assertThat(_ sut: FeedViewController, isRendering items: [FeedItem], file: StaticString = #filePath, line: UInt = #line) {
         XCTAssertEqual(sut.numberOfRenderedFeed, items.count, "expect 'numberOfRenderedFeed' to be \(items.count)", file: file, line: line)
-        items.forEach { item in
-            assertThat(sut, hasViewConfiguredFor: item, file: file, line: line)
+        items.enumerated().forEach { index,item in
+            assertThat(sut, hasViewConfiguredFor: item, at: index, file: file, line: line)
         }
     }
 
@@ -111,12 +127,12 @@ final class FeedViewControllerTests: XCTestCase {
             capturedLoadCompletions.append(completion)
         }
 
-        func completeLoading(at index: Int = 0) {
-            capturedLoadCompletions[index](.success([]))
+        func completeLoading(with feed: [FeedItem] = [], at index: Int = 0) {
+            capturedLoadCompletions[index](.success(feed))
         }
 
-        func completeLoading(with result: FeedLoader.Result, at index: Int = 0) {
-            capturedLoadCompletions[index](result)
+        func completeLoadingWithError(error: Error, at index: Int = 0) {
+            capturedLoadCompletions[index](.failure(error))
         }
     }
 }
