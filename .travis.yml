@@ -1,4 +1,6 @@
 OS: OSX
 OSX_image: xcode14.3
 language: Swift
-script: xcodebuild clean build test -project Feed.xcodeproj -scheme "CI" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+script:
+    - xcodebuild clean build test -project Feed.xcodeproj -scheme "CI_macOS" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk macosx -destination "platform=macOS" ONLY_ACTIVE_ARCH=YES
+    - xcodebuild clean build test -project Feed.xcodeproj -scheme "CI_iOS" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "platform=iOS Simulator" ONLY_ACTIVE_ARCH=YES
