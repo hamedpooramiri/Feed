@@ -1,0 +1,59 @@
+{
+  "configurations" : [
+    {
+      "id" : "0DF63124-D8FA-4AEE-8FD0-69E345860945",
+      "name" : "Configuration 1",
+      "options" : {
+        "testExecutionOrdering" : "random"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Feed.xcodeproj",
+          "identifier" : "1CD91E9A2A8D050000A7FC3E",
+          "name" : "FeediOS"
+        },
+        {
+          "containerPath" : "container:Feed.xcodeproj",
+          "identifier" : "1C9226AD2A80681400DFB9D6",
+          "name" : "Feed"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1CE50E392A82F0C200B1020E",
+        "name" : "FeedAPIEndToEndTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1C3598C32A8A705A00E59922",
+        "name" : "FeedCacheIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1C9226B72A80681400DFB9D6",
+        "name" : "FeedTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "1CD91EA32A8D050000A7FC3E",
+        "name" : "FeediOSTests"
+      }
+    }
+  ],
+  "version" : 1
+}
