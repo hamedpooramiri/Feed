@@ -121,16 +121,16 @@ final class FeedViewControllerTests: XCTestCase {
         let view0 = sut.simulatefeedItemCellIsVisible(at: 0)
         let view1 = sut.simulatefeedItemCellIsVisible(at: 1)
         
-        XCTAssertEqual(view0.isShowingImageLoadingIndicator, true, "expect after make cell visible it start to load image")
-        XCTAssertEqual(view1.isShowingImageLoadingIndicator, true, "expect after make cell visible it start to load image")
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, true, "expect after make cell visible it start to load image")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true, "expect after make cell visible it start to load image")
         
         loader.completeImageLoading(at: 0)
-        XCTAssertEqual(view0.isShowingImageLoadingIndicator, false, "expect to not show loading indicator after load finished")
-        XCTAssertEqual(view1.isShowingImageLoadingIndicator, true, "expect after make cell visible it starts to load image and show loading Indicator")
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "expect to not show loading indicator after load finished")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true, "expect after make cell visible it starts to load image and show loading Indicator")
         
         loader.completeImageLoadingWithError(at: 1)
-        XCTAssertEqual(view0.isShowingImageLoadingIndicator, false, "expect to not show loading indicator after load finished")
-        XCTAssertEqual(view1.isShowingImageLoadingIndicator, false, "expect to not show loading Indicator after finished with error")
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "expect to not show loading indicator after load finished")
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, false, "expect to not show loading Indicator after finished with error")
         
         
     }
@@ -269,7 +269,7 @@ private extension FeedItemCell {
     }
 
     var isShowingImageLoadingIndicator: Bool {
-        
+        imageContainer.isShimmering
     }
 }
 
