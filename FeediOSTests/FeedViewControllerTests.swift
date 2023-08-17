@@ -131,10 +131,94 @@ final class FeedViewControllerTests: XCTestCase {
         loader.completeImageLoadingWithError(at: 1)
         XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "expect to not show loading indicator after load finished")
         XCTAssertEqual(view1?.isShowingImageLoadingIndicator, false, "expect to not show loading Indicator after finished with error")
-        
-        
     }
     
+    func test_feedItemCell_rendersImageLoadedFromURL() {
+        let (loader, sut) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: [makefeedItem(), makefeedItem()])
+
+        let view0 = sut.simulatefeedItemCellIsVisible(at: 0)
+        let view1 = sut.simulatefeedItemCellIsVisible(at: 1)
+
+        XCTAssertEqual(view0?.renderedImage, .none, "expect to not show any images while loading from URL")
+        XCTAssertEqual(view1?.renderedImage, .none, "expect to not show any images while loading from URL")
+
+        let imageData0 = UIImage.make(withColor: .blue)
+        let imageData1 = UIImage.make(withColor: .red)
+        
+        loader.completeImageLoading(with: imageData0.pngData()!, at: 0)
+        XCTAssertEqual(view0?.renderedImage, imageData0, "expect to render image after get data")
+        XCTAssertEqual(view1?.renderedImage, .none, "expect to not show any images while loading from URL")
+        
+        loader.completeImageLoading(with: imageData1.pngData()!, at: 1)
+        XCTAssertEqual(view0?.renderedImage, imageData0, "expect to render image after get data")
+        XCTAssertEqual(view1?.renderedImage, imageData1, "expect to render image after get data")
+    }
+    
+    func test_feedItemCell_showRetryOnImageDataLoadingError() {
+        let item1 = makefeedItem(imageUrl: URL(string: "https://url-0.com")!)
+        let item2 = makefeedItem(imageUrl: URL(string: "https://url-1.com")!)
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: [item1, item2])
+
+        let view0 = sut.simulatefeedItemCellIsVisible(at: 0)
+        let view1 = sut.simulatefeedItemCellIsVisible(at: 1)
+        
+        XCTAssertEqual(view0?.isShowingRetryAction, false, "expect to not show reload when is loading image data")
+        XCTAssertEqual(view1?.isShowingRetryAction, false, "expect to not show reload when is loading image data")
+        
+        let imageData = UIImage.make(withColor: .blue).pngData()!
+        loader.completeImageLoading(with: imageData, at: 0)
+        XCTAssertEqual(view0?.isShowingRetryAction, false, "expect to show reload when finish loading with failure")
+        XCTAssertEqual(view1?.isShowingRetryAction, false, "expect to not show reload when is loading image data")
+        
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingRetryAction, false, "expect to show reload when finish loading with failure")
+        XCTAssertEqual(view1?.isShowingRetryAction, true, "expect to show reload when finish loading with failure")
+    }
+
+    func test_feedItemCell_showRetryOnImageInvaidData() {
+        let item1 = makefeedItem(imageUrl: URL(string: "https://url-0.com")!)
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: [item1])
+
+        let view0 = sut.simulatefeedItemCellIsVisible(at: 0)
+        
+        XCTAssertEqual(view0?.isShowingRetryAction, false, "expect to not show reload when is loading image data")
+        
+        let imageData = "invaid data".data(using: .utf8)!
+        loader.completeImageLoading(with: imageData, at: 0)
+        XCTAssertEqual(view0?.isShowingRetryAction, true, "expect to show reload when image Data is Corrupted")
+
+    }
+
+    func test_feedItemCell_retriesActionRetriesImageLoad() {
+        let item0 = makefeedItem(imageUrl: URL(string: "https://url-0.com")!)
+        let item1 = makefeedItem(imageUrl: URL(string: "https://url-1.com")!)
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: [item0, item1])
+        XCTAssertEqual(loader.loadedImageURLs, [], "expect to not load urls before the cells are visible")
+        
+        let view0 = sut.simulatefeedItemCellIsVisible(at: 0)
+        let view1 = sut.simulatefeedItemCellIsVisible(at: 1)
+        
+        loader.completeImageLoadingWithError(at: 0)
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageUrl, item1.imageUrl])
+        
+        view0?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageUrl, item1.imageUrl, item0.imageUrl])
+
+        view1?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageUrl, item1.imageUrl, item0.imageUrl, item1.imageUrl])
+
+    }
+
     //MARK:  Helper
     
     func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (loader: LoaderSpy, sut: FeedViewController) {
@@ -258,6 +342,11 @@ private extension FeedViewController {
 }
 
 private extension FeedItemCell {
+
+    func simulateRetryAction() {
+        retryButton.simulateTap()
+    }
+    
     var isShowingLocation: Bool {
         !locationContainer .isHidden
     }
@@ -271,6 +360,12 @@ private extension FeedItemCell {
     var isShowingImageLoadingIndicator: Bool {
         imageContainer.isShimmering
     }
+    var isShowingRetryAction: Bool {
+        !retryButton.isHidden
+    }
+    var renderedImage: UIImage? {
+        feedImageView.image
+    }
 }
 
 private extension UIRefreshControl {
@@ -280,5 +375,28 @@ private extension UIRefreshControl {
                 (target as NSObject).perform(Selector(action))
             })
         }
+    }
+}
+
+private extension UIButton {
+    func simulateTap() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach({ action in
+                (target as NSObject).perform(Selector(action))
+            })
+        }
+    }
+}
+
+extension UIImage {
+    static func make(withColor color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()!
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
     }
 }
