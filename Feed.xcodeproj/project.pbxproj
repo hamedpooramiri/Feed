@@ -315,6 +315,20 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		1C705EAB2A8FE75C00A649D5 /* FeedImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FeedImageLoader;
+			sourceTree = "<group>";
+		};
+		1C705EAC2A8FE78A00A649D5 /* Feed UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Feed UI";
+			sourceTree = "<group>";
+		};
 		1C9226A42A80681400DFB9D6 = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +384,8 @@
 		1CD91E9C2A8D050000A7FC3E /* FeediOS */ = {
 			isa = PBXGroup;
 			children = (
+				1C705EAB2A8FE75C00A649D5 /* FeedImageLoader */,
+				1C705EAC2A8FE78A00A649D5 /* Feed UI */,
 				1C54CC442A8D1B3D00D663A8 /* FeediOS.xctestplan */,
 				1C54CC4B2A8D44C000D663A8 /* FeedViewController.swift */,
 				1CAB493C2A8D4F8A00557E11 /* FeedItemCell.swift */,
