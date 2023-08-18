@@ -328,24 +328,24 @@
 		1C705EAC2A8FE78A00A649D5 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
-				1C705EB02A8FE84200A649D5 /* Controller */,
-				1C705EAF2A8FE83900A649D5 /* View */,
+				1C705EB02A8FE84200A649D5 /* Controllers */,
+				1C705EAF2A8FE83900A649D5 /* Views */,
 			);
 			path = "Feed UI";
 			sourceTree = "<group>";
 		};
-		1C705EAF2A8FE83900A649D5 /* View */ = {
+		1C705EAF2A8FE83900A649D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		1C705EB02A8FE84200A649D5 /* Controller */ = {
+		1C705EB02A8FE84200A649D5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Controller;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		1C9226A42A80681400DFB9D6 = {
