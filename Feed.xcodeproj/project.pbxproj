@@ -332,6 +332,7 @@
 		1C705EAC2A8FE78A00A649D5 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
+				1C705EB52A9000DD00A649D5 /* Composers */,
 				1C705EB02A8FE84200A649D5 /* Controllers */,
 				1C705EAF2A8FE83900A649D5 /* Views */,
 			);
@@ -355,6 +356,13 @@
 				1C705EB32A8FF6A600A649D5 /* FeedCellViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1C705EB52A9000DD00A649D5 /* Composers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Composers;
 			sourceTree = "<group>";
 		};
 		1C9226A42A80681400DFB9D6 = {
