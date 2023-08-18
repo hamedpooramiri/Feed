@@ -10,7 +10,7 @@ import Feed
 
 public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     
-    private var feedLoader: FeedLoader?
+    private var refreshController: FeedRefreshViewController?
     private var imageLoader: FeedImageLoader?
 
     private var feed: [FeedItem] = []
@@ -18,27 +18,19 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
 
     public convenience init(loader: FeedLoader, imageLoader: FeedImageLoader) {
         self.init()
-        self.feedLoader = loader
+        self.refreshController = FeedRefreshViewController(feedLoader: loader)
         self.imageLoader = imageLoader
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        refreshControl = UIRefreshControl()
+        refreshControl = refreshController?.view
         tableView.prefetchDataSource = self
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        feedLoader?.load { [weak self] result in
-            if let feed = try? result.get() {
-                self?.feed = feed
-            }
+        refreshController?.onRefresh = { [weak self] feed in
+            self?.feed = feed
             self?.tableView.reloadData()
-            self?.refreshControl?.endRefreshing()
         }
+        refreshController?.refresh()
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
