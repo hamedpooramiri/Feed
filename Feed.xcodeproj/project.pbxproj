@@ -328,8 +328,24 @@
 		1C705EAC2A8FE78A00A649D5 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
+				1C705EB02A8FE84200A649D5 /* Controller */,
+				1C705EAF2A8FE83900A649D5 /* View */,
 			);
 			path = "Feed UI";
+			sourceTree = "<group>";
+		};
+		1C705EAF2A8FE83900A649D5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C705EB02A8FE84200A649D5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		1C9226A42A80681400DFB9D6 = {
