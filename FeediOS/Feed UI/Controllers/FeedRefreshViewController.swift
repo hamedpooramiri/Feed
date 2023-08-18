@@ -6,37 +6,6 @@
 //
 
 import UIKit
-import Feed
-
-class FeedViewModel {
-
-    let feedLoader: FeedLoader
-
-    init(feedLoader: FeedLoader) {
-        self.feedLoader = feedLoader
-    }
-
-    var onChange: ((FeedViewModel) -> Void)?
-    var onLoad: (([FeedItem]) -> Void)?
-    
-    var isLoading: Bool = false {
-        didSet {
-            onChange?(self)
-        }
-    }
-    
-    func load() {
-        isLoading = true
-        feedLoader.load { [weak self] result in
-            if let feed = try? result.get() {
-                self?.onLoad?(feed)
-            }
-            self?.isLoading = false
-        }
-    }
-
-}
-
 
 final class FeedRefreshViewController: NSObject {
 
@@ -51,7 +20,7 @@ final class FeedRefreshViewController: NSObject {
     }
    
     @objc func refresh() {
-        viewModel.load()
+        viewModel.loadFeed()
     }
 
     func setUpBinding(for view: UIRefreshControl) -> UIRefreshControl {

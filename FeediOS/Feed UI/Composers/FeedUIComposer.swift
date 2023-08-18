@@ -15,7 +15,7 @@ public final class FeedUIComposer {
         let viewModel = FeedViewModel(feedLoader: loader)
         let refreshController = FeedRefreshViewController(viewModel: viewModel)
         let feedViewController = FeedViewController(refreshController: refreshController)
-        viewModel.onLoad = adaptFeedToCellControllers(forwardingTo: feedViewController, imageLoader: imageLoader)
+        viewModel.onFeedLoad = adaptFeedToCellControllers(forwardingTo: feedViewController, imageLoader: imageLoader)
         return feedViewController
     }
     // adapter pattern that convert => [feedItem] -To- [FeedCellViewController]
