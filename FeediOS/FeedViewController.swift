@@ -8,24 +8,15 @@
 import UIKit
 import Feed
 
-public protocol ImageLoaderTask {
-    func cancel()
-}
-
-public protocol ImageLoader {
-    typealias Result = Swift.Result<Data, Error>
-    func loadImage(with url: URL, completion:  @escaping (Result) -> Void) -> ImageLoaderTask
-}
-
 public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     
     private var feedLoader: FeedLoader?
-    private var imageLoader: ImageLoader?
+    private var imageLoader: FeedImageLoader?
 
     private var feed: [FeedItem] = []
     private var tasks: [IndexPath: ImageLoaderTask] = [:]
 
-    public convenience init(loader: FeedLoader, imageLoader: ImageLoader) {
+    public convenience init(loader: FeedLoader, imageLoader: FeedImageLoader) {
         self.init()
         self.feedLoader = loader
         self.imageLoader = imageLoader

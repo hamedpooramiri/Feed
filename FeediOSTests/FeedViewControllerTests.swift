@@ -292,7 +292,7 @@ final class FeedViewControllerTests: XCTestCase {
         }
     }
     
-    class LoaderSpy: FeedLoader, ImageLoader {
+    class LoaderSpy: FeedLoader, FeedImageLoader {
 
         private(set) var capturedLoadCompletions: [(FeedLoader.Result) -> Void] = []
 
@@ -313,14 +313,14 @@ final class FeedViewControllerTests: XCTestCase {
         }
 
         // MARK: imageLoader
-        private(set) var capturedCompletions = [(url: URL, completion: (ImageLoader.Result) -> Void)]()
+        private(set) var capturedCompletions = [(url: URL, completion: (FeedImageLoader.Result) -> Void)]()
         var loadedImageURLs: [URL]  {
             capturedCompletions.map(\.url)
         }
 
         private(set) var canceledImageURLs: [URL] = []
         
-        func loadImage(with url: URL, completion: @escaping (ImageLoader.Result) -> Void) -> FeediOS.ImageLoaderTask {
+        func loadImage(with url: URL, completion: @escaping (FeedImageLoader.Result) -> Void) -> FeediOS.ImageLoaderTask {
             capturedCompletions.append((url, completion))
             return TaskSpy { [weak self] in self?.canceledImageURLs.append(url) }
         }
