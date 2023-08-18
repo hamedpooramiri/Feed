@@ -12,9 +12,10 @@ import Feed
 public final class FeedUIComposer {
     private init() {}
     public static func makeFeed(loader: FeedLoader, imageLoader: FeedImageLoader) -> FeedViewController {
-        let refreshController = FeedRefreshViewController(feedLoader: loader)
+        let viewModel = FeedViewModel(feedLoader: loader)
+        let refreshController = FeedRefreshViewController(viewModel: viewModel)
         let feedViewController = FeedViewController(refreshController: refreshController)
-        refreshController.onRefresh = adaptFeedToCellControllers(forwardingTo: feedViewController, imageLoader: imageLoader)
+        viewModel.onLoad = adaptFeedToCellControllers(forwardingTo: feedViewController, imageLoader: imageLoader)
         return feedViewController
     }
     // adapter pattern that convert => [feedItem] -To- [FeedCellViewController]
