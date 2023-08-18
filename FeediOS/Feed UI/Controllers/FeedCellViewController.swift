@@ -52,7 +52,7 @@ final class FeedCellViewController {
         task = imageLoader?.loadImage(with: model.imageUrl, completion: { _ in })
     }
 
-    deinit {
+    public func cancelLoad() {
         task?.cancel()
     }
 }
