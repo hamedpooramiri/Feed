@@ -439,6 +439,7 @@
 			children = (
 				1C54CC442A8D1B3D00D663A8 /* FeediOS.xctestplan */,
 				1C705EAB2A8FE75C00A649D5 /* FeedImageLoader */,
+				1CED7F8E2A917EE200F42234 /* Feed Presentation */,
 				1C705EAC2A8FE78A00A649D5 /* Feed UI */,
 			);
 			path = FeediOS;
@@ -489,6 +490,13 @@
 				1C53547D2A86C8FE007B093D /* FeedCacheHelper.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		1CED7F8E2A917EE200F42234 /* Feed Presentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Feed Presentation";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
