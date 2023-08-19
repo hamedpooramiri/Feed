@@ -8,7 +8,7 @@
 import UIKit
 import Feed
 
-
+// finish implementing UI Module on MVVM designPattern
 public final class FeedUIComposer {
     private init() {}
     public static func makeFeed(loader: FeedLoader, imageLoader: FeedImageLoader) -> FeedViewController {
