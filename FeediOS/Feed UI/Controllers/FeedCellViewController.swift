@@ -16,9 +16,9 @@ final class FeedCellViewModel<Image> {
     private let imageLoader: FeedImageLoader
     private let model: FeedItem
     private var task: ImageLoaderTask?
-    private let imageTransformer: (Data) -> Image
+    private let imageTransformer: (Data) -> Image?
 
-    init(imageLoader: FeedImageLoader, model: FeedItem, imageTransformer: @escaping (Data) -> Image) {
+    init(imageLoader: FeedImageLoader, model: FeedItem, imageTransformer: @escaping (Data) -> Image?) {
         self.imageLoader = imageLoader
         self.model = model
         self.imageTransformer = imageTransformer
