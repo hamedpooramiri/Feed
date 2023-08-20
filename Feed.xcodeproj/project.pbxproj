@@ -62,6 +62,7 @@
 		1CE50E562A8673A000B1020E /* LoadFeedFromCacheUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */; };
 		1CE50E592A86743F00B1020E /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE50E582A86743F00B1020E /* FeedStoreSpy.swift */; };
 		1CED7F902A9193F500F42234 /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CED7F8F2A9193F500F42234 /* FeedPresenter.swift */; };
+		1CED7F922A91A1CA00F42234 /* FeedLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CED7F912A91A1C900F42234 /* FeedLoadingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +173,7 @@
 		1CE50E552A8673A000B1020E /* LoadFeedFromCacheUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUseCase.swift; sourceTree = "<group>"; };
 		1CE50E582A86743F00B1020E /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
 		1CED7F8F2A9193F500F42234 /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
+		1CED7F912A91A1C900F42234 /* FeedLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoadingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -487,6 +489,7 @@
 		1CED7F8E2A917EE200F42234 /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				1CED7F912A91A1C900F42234 /* FeedLoadingViewModel.swift */,
 				1C705EB92A902C4E00A649D5 /* FeedViewModel.swift */,
 				1CED7F8F2A9193F500F42234 /* FeedPresenter.swift */,
 				1C705EBB2A90420C00A649D5 /* FeedCellViewModel.swift */,
@@ -795,6 +798,7 @@
 				1C705EAE2A8FE7EE00A649D5 /* FeedImageLoader.swift in Sources */,
 				1C54CC4C2A8D44C000D663A8 /* FeedViewController.swift in Sources */,
 				1C705EBA2A902C4E00A649D5 /* FeedViewModel.swift in Sources */,
+				1CED7F922A91A1CA00F42234 /* FeedLoadingViewModel.swift in Sources */,
 				1C705EB72A90013300A649D5 /* FeedUIComposer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
