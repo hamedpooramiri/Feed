@@ -488,8 +488,8 @@
 			isa = PBXGroup;
 			children = (
 				1C705EB92A902C4E00A649D5 /* FeedViewModel.swift */,
-				1C705EBB2A90420C00A649D5 /* FeedCellViewModel.swift */,
 				1CED7F8F2A9193F500F42234 /* FeedPresenter.swift */,
+				1C705EBB2A90420C00A649D5 /* FeedCellViewModel.swift */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
