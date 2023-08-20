@@ -16,29 +16,33 @@ protocol FeedView {
     func display(_ viewModel: FeedViewModel)
 }
 
-protocol FeedPresenterInput {
-    func loadFeed()
+protocol FeedPresenterProtocol {
+    func didStartLoadingFeed()
+    func didFinishedLoadingFeed(with error: Error)
+    func didFinishedLoadingFeed(with feed: [FeedItem])
 }
 
-class FeedPresenter: FeedPresenterInput {
-    
-    private let feedLoader: FeedLoader
+class FeedPresenter: FeedPresenterProtocol {
 
-    init(feedLoader: FeedLoader) {
-        self.feedLoader = feedLoader
+    let refreshView: FeedLoadingView
+    let feedView: FeedView
+    
+    init(refreshView: FeedLoadingView, feedView: FeedView) {
+        self.refreshView = refreshView
+        self.feedView = feedView
     }
     
-    var refreshView: FeedLoadingView?
-    var feedView: FeedView?
+    func didStartLoadingFeed() {
+        refreshView.display(FeedLoadingViewModel(isLoading: true))
+    }
     
-    func loadFeed() {
-        refreshView?.display(FeedLoadingViewModel(isLoading: true))
-        feedLoader.load { [weak self] result in
-            if let feed = try? result.get() {
-                self?.feedView?.display(FeedViewModel(feed: feed))
-            }
-            self?.refreshView?.display(FeedLoadingViewModel(isLoading: false))
-        }
+    func didFinishedLoadingFeed(with error: Error) {
+        refreshView.display(FeedLoadingViewModel(isLoading: false))
+    }
+    
+    func didFinishedLoadingFeed(with feed: [FeedItem]) {
+        feedView.display(FeedViewModel(feed: feed))
+        refreshView.display(FeedLoadingViewModel(isLoading: false))
     }
 
 }
