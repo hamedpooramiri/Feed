@@ -9,10 +9,10 @@ import UIKit
 
 final class FeedCellViewController: FeedCellView {
 
-    private let presenter: FeedCellPresenter<WeakRefVirtualProxy<FeedCellViewController>, UIImage>
+    private let presenter: FeedCellPresenterInput
     private var cell: FeedItemCell?
     
-    init(presenter: FeedCellPresenter<WeakRefVirtualProxy<FeedCellViewController>, UIImage>) {
+    init(presenter: FeedCellPresenterInput) {
         self.presenter = presenter
     }
 

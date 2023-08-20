@@ -8,6 +8,12 @@
 import Foundation
 import Feed
 
+protocol FeedCellPresenterInput {
+    func loadImage()
+    func preload()
+    func cancelLoad()
+}
+
 protocol FeedCellView {
     associatedtype Image
     func display(_ viewModel: FeedCellViewModel<Image>)
@@ -27,7 +33,10 @@ final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Ima
     }
 
     var feedCellView: View?
+}
 
+extension FeedCellPresenter: FeedCellPresenterInput {
+    
     func loadImage() {
         feedCellView?.display(
             FeedCellViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
@@ -52,7 +61,7 @@ final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Ima
             }
         }
     }
-
+    
     func preload() {
         task = imageLoader.loadImage(with: model.imageUrl, completion: { _ in })
     }
