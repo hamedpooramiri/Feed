@@ -8,7 +8,7 @@
 import Foundation
 import Feed
 
-struct ViewModel<Image> {
+struct FeedCellViewModel<Image> {
     let isLoading: Bool
     let canRety: Bool
     let location: String?
@@ -22,7 +22,7 @@ struct ViewModel<Image> {
 
 protocol FeedCellView {
     associatedtype Image
-    func display(_ viewModel: ViewModel<Image>)
+    func display(_ viewModel: FeedCellViewModel<Image>)
 }
 
 final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Image {
@@ -42,23 +42,23 @@ final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Ima
 
     func loadImage() {
         feedCellView?.display(
-            ViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
+            FeedCellViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
         )
         let model = self.model
         task = imageLoader.loadImage(with: model.imageUrl) { [weak self, model] result in
             switch result {
             case .failure:
                 self?.feedCellView?.display(
-                    ViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+                    FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
                 )
             case .success(let imageData):
                 if let image = self?.imageTransformer(imageData){
                     self?.feedCellView?.display(
-                        ViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)
+                        FeedCellViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)
                     )
                 } else {
                     self?.feedCellView?.display(
-                        ViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+                        FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
                     )
                 }
             }

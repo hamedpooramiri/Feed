@@ -58,7 +58,7 @@ final class FeedViewAdapter: FeedView {
 
 // Forward the action to the real object
 extension WeakRefVirtualProxy: FeedCellView where T: FeedCellView {
-    func display(_ viewModel: ViewModel<T.Image>) {
+    func display(_ viewModel: FeedCellViewModel<T.Image>) {
         object?.display(viewModel)
     }
 }
