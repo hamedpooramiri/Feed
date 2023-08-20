@@ -29,8 +29,8 @@ final class WeakRefVirtualProxy<T: AnyObject> {
     }
 }
 // Forward the action to the real object
-extension WeakRefVirtualProxy: RefreshView where T: RefreshView {
-    func display(_ viewModel: LoadingViewModel) {
+extension WeakRefVirtualProxy: FeedLoadingView where T: FeedLoadingView {
+    func display(_ viewModel: FeedLoadingViewModel) {
         object?.display(viewModel)
     }
 }

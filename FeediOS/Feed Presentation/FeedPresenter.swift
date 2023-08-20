@@ -8,12 +8,12 @@
 import Foundation
 import Feed
 
-struct LoadingViewModel {
+struct FeedLoadingViewModel {
     let isLoading: Bool
 }
 
-protocol RefreshView {
-    func display(_ viewModel: LoadingViewModel)
+protocol FeedLoadingView {
+    func display(_ viewModel: FeedLoadingViewModel)
 }
 
 protocol FeedView {
@@ -28,16 +28,16 @@ class FeedPresenter {
         self.feedLoader = feedLoader
     }
     
-    var refreshView: RefreshView?
+    var refreshView: FeedLoadingView?
     var feedView: FeedView?
     
     func loadFeed() {
-        refreshView?.display(LoadingViewModel(isLoading: true))
+        refreshView?.display(FeedLoadingViewModel(isLoading: true))
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
                 self?.feedView?.display(FeedViewModel(feed: feed))
             }
-            self?.refreshView?.display(LoadingViewModel(isLoading: false))
+            self?.refreshView?.display(FeedLoadingViewModel(isLoading: false))
         }
     }
 
