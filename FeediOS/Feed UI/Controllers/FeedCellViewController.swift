@@ -7,23 +7,29 @@
 
 import UIKit
 
+protocol FeedCellViewControllerDelegate {
+    func didRequestLoadImage()
+    func didRequestPreLoad()
+    func didRequestCancelLoad()
+}
+
 final class FeedCellViewController: FeedCellView {
 
-    private let presenter: FeedCellPresenterInput
+    private let delegate: FeedCellViewControllerDelegate
     private var cell: FeedItemCell?
     
-    init(presenter: FeedCellPresenterInput) {
-        self.presenter = presenter
+    init(delegate: FeedCellViewControllerDelegate) {
+        self.delegate = delegate
     }
 
     func view() -> UITableViewCell {
         let cell = FeedItemCell()
-        cell.onRetry = presenter.loadImage
+        cell.onRetry = delegate.didRequestLoadImage
         cell.imageContainer.isShimmering = true
         cell.retryButton.isHidden = true
         cell.feedImageView.image = nil
         self.cell = cell
-        presenter.loadImage()
+        delegate.didRequestLoadImage()
         return cell
     }
 
@@ -37,11 +43,11 @@ final class FeedCellViewController: FeedCellView {
     }
 
     func preload() {
-        presenter.preload()
+        delegate.didRequestPreLoad()
     }
 
     public func cancelLoad() {
-        presenter.cancelLoad()
+        delegate.didRequestCancelLoad()
     }
 
 }

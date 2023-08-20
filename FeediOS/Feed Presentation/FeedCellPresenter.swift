@@ -8,65 +8,50 @@
 import Foundation
 import Feed
 
-protocol FeedCellPresenterInput {
-    func loadImage()
-    func preload()
-    func cancelLoad()
-}
-
 protocol FeedCellView {
     associatedtype Image
     func display(_ viewModel: FeedCellViewModel<Image>)
 }
 
+protocol FeedCellPresenterInput {
+    func didStartLoadingImage(for model: FeedItem)
+    func didFinishedLoadingImage(for model: FeedItem, with error: Error)
+    func didFinishedLoadingImage(for model: FeedItem, with imageData: Data)
+}
+
 final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Image {
 
-    private let imageLoader: FeedImageLoader
-    private let model: FeedItem
-    private var task: ImageLoaderTask?
     private let imageTransformer: (Data) -> Image?
+    var feedCellView: View?
 
-    init(imageLoader: FeedImageLoader, model: FeedItem, imageTransformer: @escaping (Data) -> Image?) {
-        self.imageLoader = imageLoader
-        self.model = model
+    init(imageTransformer: @escaping (Data) -> Image?) {
         self.imageTransformer = imageTransformer
     }
 
-    var feedCellView: View?
 }
 
 extension FeedCellPresenter: FeedCellPresenterInput {
-    
-    func loadImage() {
+    func didStartLoadingImage(for model: Feed.FeedItem) {
         feedCellView?.display(
             FeedCellViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
         )
-        let model = self.model
-        task = imageLoader.loadImage(with: model.imageUrl) { [weak self, model] result in
-            switch result {
-            case .failure:
-                self?.feedCellView?.display(
-                    FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
-                )
-            case .success(let imageData):
-                if let image = self?.imageTransformer(imageData){
-                    self?.feedCellView?.display(
-                        FeedCellViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)
-                    )
-                } else {
-                    self?.feedCellView?.display(
-                        FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
-                    )
-                }
-            }
-        }
     }
     
-    func preload() {
-        task = imageLoader.loadImage(with: model.imageUrl, completion: { _ in })
+    func didFinishedLoadingImage(for model: Feed.FeedItem, with error: Error) {
+        feedCellView?.display(
+            FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+        )
     }
-
-    public func cancelLoad() {
-        task?.cancel()
+    
+    func didFinishedLoadingImage(for model: Feed.FeedItem, with imageData: Data) {
+        if let image = imageTransformer(imageData){
+            feedCellView?.display(
+                FeedCellViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)
+            )
+        } else {
+            feedCellView?.display(
+                FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+            )
+        }
     }
 }
