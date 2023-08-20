@@ -6,52 +6,42 @@
 //
 
 import UIKit
-import Feed
 
-final class FeedCellViewController {
+final class FeedCellViewController: FeedCellView {
 
-    let viewModel: FeedCellViewModel<UIImage>
+    private let presenter: FeedCellPresenter<WeakRefVirtualProxy<FeedCellViewController>, UIImage>
+    private var cell: FeedItemCell?
     
-    init(viewModel: FeedCellViewModel<UIImage>) {
-        self.viewModel = viewModel
+    init(presenter: FeedCellPresenter<WeakRefVirtualProxy<FeedCellViewController>, UIImage>) {
+        self.presenter = presenter
     }
 
     func view() -> UITableViewCell {
-        let cell = binded(FeedItemCell())
-        viewModel.loadImage()
-        return cell
-    }
-
-    private func binded(_ cell: FeedItemCell) -> FeedItemCell {
-        cell.locationContainer.isHidden = !viewModel.hasLocation
-        cell.locationLabel.text = viewModel.location
-        cell.descriptionLabel.text = viewModel.description
+        let cell = FeedItemCell()
+        cell.onRetry = presenter.loadImage
         cell.imageContainer.isShimmering = true
         cell.retryButton.isHidden = true
         cell.feedImageView.image = nil
-        
-        viewModel.onFeedImageLoad = { [weak cell] image in
-            cell?.feedImageView.image = image
-        }
-        
-        viewModel.onRetryStateChange = { [weak cell] canRetry in
-            cell?.retryButton.isHidden = !canRetry
-        }
-
-        viewModel.onIsLoadingStateChange = { [weak cell] isLoading in
-            cell?.imageContainer.isShimmering = isLoading
-        }
-
-        cell.onRetry = viewModel.loadImage
+        self.cell = cell
+        presenter.loadImage()
         return cell
     }
 
+    func display(_ viewModel: ViewModel<UIImage>) {
+        cell?.locationContainer.isHidden = !viewModel.hasLocation
+        cell?.locationLabel.text = viewModel.location
+        cell?.descriptionLabel.text = viewModel.description
+        cell?.imageContainer.isShimmering = viewModel.isLoading
+        cell?.retryButton.isHidden = !viewModel.canRety
+        cell?.feedImageView.image = viewModel.image
+    }
+
     func preload() {
-        viewModel.preload()
+        presenter.preload()
     }
 
     public func cancelLoad() {
-        viewModel.cancelLoad()
+        presenter.cancelLoad()
     }
 
 }

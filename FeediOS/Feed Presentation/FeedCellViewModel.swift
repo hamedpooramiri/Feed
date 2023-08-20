@@ -8,10 +8,25 @@
 import Foundation
 import Feed
 
-final class FeedCellViewModel<Image> {
-
-    typealias Observer<T> = (T) -> Void
+struct ViewModel<Image> {
+    let isLoading: Bool
+    let canRety: Bool
+    let location: String?
+    let description: String?
+    let image: Image?
     
+    var hasLocation: Bool {
+        location != nil
+    }
+}
+
+protocol FeedCellView {
+    associatedtype Image
+    func display(_ viewModel: ViewModel<Image>)
+}
+
+final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Image {
+
     private let imageLoader: FeedImageLoader
     private let model: FeedItem
     private var task: ImageLoaderTask?
@@ -23,35 +38,30 @@ final class FeedCellViewModel<Image> {
         self.imageTransformer = imageTransformer
     }
 
-    var onFeedImageLoad: Observer<Image>?
-    var onRetryStateChange: Observer<Bool>?
-    var onIsLoadingStateChange: Observer<Bool>?
-    
-    var hasLocation: Bool {
-        model.location != nil
-    }
-    
-    var location: String? {
-        model.location
-    }
-    var description: String? {
-        model.description
-    }
+    var feedCellView: View?
 
     func loadImage() {
-        onIsLoadingStateChange?(true)
-        task = imageLoader.loadImage(with: model.imageUrl) { [weak self] result in
+        feedCellView?.display(
+            ViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
+        )
+        let model = self.model
+        task = imageLoader.loadImage(with: model.imageUrl) { [weak self, model] result in
             switch result {
             case .failure:
-                self?.onRetryStateChange?(true)
+                self?.feedCellView?.display(
+                    ViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+                )
             case .success(let imageData):
                 if let image = self?.imageTransformer(imageData){
-                    self?.onFeedImageLoad?(image)
+                    self?.feedCellView?.display(
+                        ViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)
+                    )
                 } else {
-                    self?.onRetryStateChange?(true)
+                    self?.feedCellView?.display(
+                        ViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
+                    )
                 }
             }
-            self?.onIsLoadingStateChange?(false)
         }
     }
 
@@ -62,5 +72,4 @@ final class FeedCellViewModel<Image> {
     public func cancelLoad() {
         task?.cancel()
     }
-    
 }
