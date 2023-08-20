@@ -8,7 +8,8 @@
 import UIKit
 import Feed
 
-// finish implementing UI Module on MVVM designPattern
+// finish implementing UI Module on MVP designPattern biDirectunal communication between Presenter and View
+// and to prevent memory leak we use WeakRefVirtualProxy wapper on View
 public final class FeedUIComposer {
     private init() {}
     public static func makeFeed(loader: FeedLoader, imageLoader: FeedImageLoader) -> FeedViewController {
