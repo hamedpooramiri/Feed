@@ -252,6 +252,17 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.canceledImageURLs, [item0.imageUrl, item1.imageUrl])
     }
 
+    func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        let exp = expectation(description: "wait for background queue")
+        DispatchQueue.global().async {
+            loader.completeLoading()
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
+    }
+
     //MARK:  Helper
     
     func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (loader: LoaderSpy, sut: FeedViewController) {
