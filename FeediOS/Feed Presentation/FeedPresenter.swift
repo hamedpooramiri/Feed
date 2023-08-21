@@ -24,8 +24,8 @@ protocol FeedPresenterProtocol {
 
 class FeedPresenter: FeedPresenterProtocol {
 
-    let refreshView: FeedLoadingView
-    let feedView: FeedView
+    private let refreshView: FeedLoadingView
+    private let feedView: FeedView
     
     init(refreshView: FeedLoadingView, feedView: FeedView) {
         self.refreshView = refreshView
