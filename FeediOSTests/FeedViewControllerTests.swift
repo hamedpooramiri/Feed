@@ -263,6 +263,21 @@ final class FeedViewControllerTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
 
+    func test_feedItemImageLoadCompletion_dispatchesFromBackgroundToMainThread() {
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLoading(with: [makefeedItem()])
+
+        _ = sut.simulatefeedItemCellIsVisible()
+        
+        let exp = expectation(description: "wait for background queue")
+        DispatchQueue.global().async {
+            loader.completeImageLoading(at: 0)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
+    }
+
     //MARK:  Helper
     
     func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (loader: LoaderSpy, sut: FeedViewController) {
