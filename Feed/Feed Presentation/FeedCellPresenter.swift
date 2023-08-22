@@ -6,25 +6,24 @@
 //
 
 import Foundation
-import Feed
 
-protocol FeedCellView {
+public protocol FeedCellView {
     associatedtype Image
     func display(_ viewModel: FeedCellViewModel<Image>)
 }
 
-protocol FeedCellPresenterInput {
+public protocol FeedCellPresenterInput {
     func didStartLoadingImage(for model: FeedItem)
     func didFinishedLoadingImage(for model: FeedItem, with error: Error)
     func didFinishedLoadingImage(for model: FeedItem, with imageData: Data)
 }
 
-final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Image {
+public final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Image {
 
     private let imageTransformer: (Data) -> Image?
     private let feedCellView: View
 
-    init(feedCellView: View, imageTransformer: @escaping (Data) -> Image?) {
+    public init(feedCellView: View, imageTransformer: @escaping (Data) -> Image?) {
         self.feedCellView = feedCellView
         self.imageTransformer = imageTransformer
     }
@@ -32,19 +31,19 @@ final class FeedCellPresenter<View: FeedCellView, Image> where View.Image == Ima
 }
 
 extension FeedCellPresenter: FeedCellPresenterInput {
-    func didStartLoadingImage(for model: Feed.FeedItem) {
+    public func didStartLoadingImage(for model: Feed.FeedItem) {
         feedCellView.display(
             FeedCellViewModel(isLoading: true, canRety: false, location: model.location, description: model.description, image: nil)
         )
     }
     
-    func didFinishedLoadingImage(for model: Feed.FeedItem, with error: Error) {
+    public func didFinishedLoadingImage(for model: Feed.FeedItem, with error: Error) {
         feedCellView.display(
             FeedCellViewModel(isLoading: false, canRety: true, location: model.location, description: model.description, image: nil)
         )
     }
     
-    func didFinishedLoadingImage(for model: Feed.FeedItem, with imageData: Data) {
+    public func didFinishedLoadingImage(for model: Feed.FeedItem, with imageData: Data) {
         if let image = imageTransformer(imageData){
             feedCellView.display(
                 FeedCellViewModel(isLoading: false, canRety: false, location: model.location, description: model.description, image: image)

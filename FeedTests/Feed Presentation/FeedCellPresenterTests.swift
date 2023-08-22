@@ -6,30 +6,79 @@
 //
 
 import XCTest
+import Feed
 
 final class FeedCellPresenterTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_init_doseNotSendMessagesToView(){
+        let (view, _) = makeSUT()
+        XCTAssertEqual(view.messages, [])
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func test_didStartLoadingImage_displayCellIsLoading() {
+        let (view, sut) = makeSUT()
+        let item = FeedItem(id: UUID(),
+                            description: "a description",
+                            location: "a location",
+                            imageUrl: URL(string: "https://a-url.com")!)
+        sut.didStartLoadingImage(for: item)
+        XCTAssertEqual(view.messages, [.display(isLoading: true, canRety: false)])
+    }
+   
+    func test_didFinishedLoadingImageWithError_displayCellCanRetry() {
+        let (view, sut) = makeSUT()
+        let item = FeedItem(id: UUID(),
+                            description: "a description",
+                            location: "a location",
+                            imageUrl: URL(string: "https://a-url.com")!)
+        let error = NSError(domain: "an error", code: 0)
+        sut.didFinishedLoadingImage(for: item, with: error)
+        XCTAssertEqual(view.messages, [.display(isLoading: false, canRety: true)])
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func test_didFinishedLoadingImageWithData_onSuccessTransformer_displayCellWithImage() {
+        let (view, sut) = makeSUT { data in
+            return "an Image" // success conversion
+        }
+        let item = FeedItem(id: UUID(),
+                            description: "a description",
+                            location: "a location",
+                            imageUrl: URL(string: "https://a-url.com")!)
+        sut.didFinishedLoadingImage(for: item, with: Data())
+        XCTAssertEqual(view.messages, [.display(isLoading: false, canRety: false, imageData: "an Image")])
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func test_didFinishedLoadingImageWithData_onFailTransformer_displayCellWithNoImage() {
+        let (view, sut) = makeSUT { data in
+            return nil // fail Conversion
+        }
+        let item = FeedItem(id: UUID(),
+                            description: "a description",
+                            location: "a location",
+                            imageUrl: URL(string: "https://a-url.com")!)
+        sut.didFinishedLoadingImage(for: item, with: Data())
+        XCTAssertEqual(view.messages, [.display(isLoading: false, canRety: true, imageData: nil)])
+    }
+
+    // MARK: Helpers
+    func makeSUT(imageTransformer:  @escaping (Data) -> String? = { _ in return nil }, file: StaticString = #filePath, line: UInt = #line) -> (view: ViewSpy, sut: FeedCellPresenter<ViewSpy, String>){
+        let view = ViewSpy()
+        let sut = FeedCellPresenter(feedCellView: view, imageTransformer: imageTransformer)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(view, file: file, line: line)
+        return (view, sut)
+    }
+
+    class ViewSpy: FeedCellView {
+        
+        enum Messages: Hashable {
+            case display(isLoading: Bool, canRety: Bool, imageData: String? = nil)
+        }
+        
+        var messages = Set<Messages>()
+
+        func display(_ viewModel: FeedCellViewModel<String>) {
+            messages.insert(.display(isLoading: viewModel.isLoading, canRety: viewModel.canRety, imageData: viewModel.image))
         }
     }
-
 }
