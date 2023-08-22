@@ -439,7 +439,7 @@
 				1C0523AF2A82912B00383141 /* Helper */,
 				1CE50E492A848E9B00B1020E /* Cache */,
 				1C697A2D2A81687900E4FDBB /* API */,
-				1CB60D032A94C216001860C0 /* Presentation */,
+				1CB60D032A94C216001860C0 /* Feed Presentation */,
 			);
 			path = FeedTests;
 			sourceTree = "<group>";
@@ -454,11 +454,11 @@
 			path = Adapter;
 			sourceTree = "<group>";
 		};
-		1CB60D032A94C216001860C0 /* Presentation */ = {
+		1CB60D032A94C216001860C0 /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Presentation;
+			path = "Feed Presentation";
 			sourceTree = "<group>";
 		};
 		1CD91E9C2A8D050000A7FC3E /* FeediOS */ = {
