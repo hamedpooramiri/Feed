@@ -380,6 +380,7 @@
 				1C705EB62A90013300A649D5 /* FeedUIComposer.swift */,
 				1CB60CF82A94BF89001860C0 /* MainQueueDispatchDecorator.swift */,
 				1CB60CFA2A94BFF3001860C0 /* WeakRefVirtualProxy.swift */,
+				1CB60CFC2A94C04C001860C0 /* Adapter */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -434,6 +435,13 @@
 				1C697A2D2A81687900E4FDBB /* API */,
 			);
 			path = FeedTests;
+			sourceTree = "<group>";
+		};
+		1CB60CFC2A94C04C001860C0 /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Adapter;
 			sourceTree = "<group>";
 		};
 		1CD91E9C2A8D050000A7FC3E /* FeediOS */ = {
