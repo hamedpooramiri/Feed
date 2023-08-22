@@ -6,3 +6,34 @@
 //
 
 import Foundation
+
+public protocol FeedLoadingView {
+    func display(_ viewModel: FeedLoadingViewModel)
+}
+public protocol FeedView {
+    func display(_ viewModel: FeedViewModel)
+}
+
+public final class FeedPresenter {
+
+    private let refreshView: FeedLoadingView
+    private let feedView: FeedView
+
+    public init(refreshView: FeedLoadingView, feedView: FeedView) {
+        self.refreshView = refreshView
+        self.feedView = feedView
+    }
+
+    public func didStartLoadingFeed() {
+        refreshView.display(FeedLoadingViewModel(isLoading: true))
+    }
+
+    public func didFinishedLoadingFeed(with error: Error)  {
+        refreshView.display(FeedLoadingViewModel(isLoading: false))
+    }
+
+    public func didFinishedLoadingFeed(with feed: [FeedItem]) {
+        feedView.display(FeedViewModel(feed: feed))
+        refreshView.display(FeedLoadingViewModel(isLoading: false))
+    }
+}
