@@ -14,7 +14,13 @@ public protocol FeedView {
     func display(_ viewModel: FeedViewModel)
 }
 
-public final class FeedPresenter {
+public protocol FeedPresenterProtocol {
+    func didStartLoadingFeed()
+    func didFinishedLoadingFeed(with error: Error)
+    func didFinishedLoadingFeed(with feed: [FeedItem])
+}
+
+public final class FeedPresenter: FeedPresenterProtocol {
 
     private let refreshView: FeedLoadingView
     private let feedView: FeedView

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Feed
 // Proxy Design pattern for hide the real object and break the retain cycle
 final class WeakRefVirtualProxy<T: AnyObject> {
     private weak var object: T?
