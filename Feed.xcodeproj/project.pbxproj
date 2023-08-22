@@ -431,6 +431,7 @@
 				1CE50E4C2A8574C300B1020E /* Cache */,
 				1C697A292A81533500E4FDBB /* API */,
 				1C697A2A2A81538100E4FDBB /* Feature */,
+				1CB60D062A94CACF001860C0 /* Feed Presentation */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -460,6 +461,13 @@
 			isa = PBXGroup;
 			children = (
 				1CB60D042A94C295001860C0 /* FeedPresenterTests.swift */,
+			);
+			path = "Feed Presentation";
+			sourceTree = "<group>";
+		};
+		1CB60D062A94CACF001860C0 /* Feed Presentation */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
