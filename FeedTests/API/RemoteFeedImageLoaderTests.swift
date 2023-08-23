@@ -16,7 +16,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
-    func test_load_callOnce() {
+    func test_loadImage_callOnce() {
         let client = HTTPClientSpy()
         let sut = makeSUT(client: client)
         let url = anyURL()
@@ -24,7 +24,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.count == 1)
     }
     
-    func test_load_callTwice() {
+    func test_loadImage_callTwice() {
         let client = HTTPClientSpy()
         let sut = makeSUT(client: client)
         let url = anyURL()
@@ -33,7 +33,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.count == 2)
     }
 
-    func test_load_deliverConactivityErrorOnClientError() {
+    func test_loadImage_deliverConactivityErrorOnClientError() {
         let client = HTTPClientSpy()
         let sut = makeSUT(client: client)
         exp(sut, withLoadURL: anyURL(), toCompleteWith: .failure(RemoteFeedImageLoader.Error.connectivity)) {
@@ -41,7 +41,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         }
     }
 
-    func test_load_deliversErrorOnNon200HTTPResponse() {
+    func test_loadImage_deliversErrorOnNon200HTTPResponse() {
         let client = HTTPClientSpy()
         let sut = makeSUT(client: client)
 
@@ -54,7 +54,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         }
     }
 
-    func test_load_NotDeliverResultAfterSUTDeallocated() {
+    func test_loadImage_NotDeliverResultAfterSUTDeallocated() {
         let client = HTTPClientSpy()
         var sut: RemoteFeedImageLoader? = makeSUT(client: client)
 
@@ -67,7 +67,7 @@ final class RemoteFeedImageLoaderTests: XCTestCase {
         XCTAssertTrue(capturedResults.isEmpty)
     }
 
-    func test_LoadImage_cancelImageLoadingWhenCanceled() {
+    func test_loadImage_cancelImageLoadingWhenCanceled() {
         let client = HTTPClientSpy()
         let sut = makeSUT(client: client)
         var capturedResults = [RemoteFeedImageLoader.Result]()
