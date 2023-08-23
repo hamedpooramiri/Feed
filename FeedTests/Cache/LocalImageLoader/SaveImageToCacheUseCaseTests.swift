@@ -6,30 +6,40 @@
 //
 
 import XCTest
+import Feed
 
 final class SaveImageToCacheUseCaseTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test() {
+
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    // MARK: Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (store: LocalFeedImageLoaderStoreSpy, sut: LocalFeedImageLoader) {
+        let store = LocalFeedImageLoaderStoreSpy()
+        let sut = LocalFeedImageLoader(store: store)
+        trackForMemoryLeaks(store, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return (store, sut)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func expect(_ sut: LocalFeedImageLoader, loadImageWith url: URL, toCompleteWithResult expectedResult: LocalFeedImageLoader.Result, when action: @escaping ()-> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for save")
+        sut.loadImage(with: url) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            default:
+                XCTFail("expect to get result \(expectedResult) but got \(receivedResult)", file: file, line: line)
+            }
+            exp.fulfill()
         }
+        action()
+        wait(for: [exp])
     }
 
 }

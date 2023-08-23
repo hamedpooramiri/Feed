@@ -37,7 +37,7 @@ final class LoadImageFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_loadImage_afterDeallocationOfSUT_notDeliverResult() {
-        let store = LocalFeedImageLoaderStoreSpy()
+        let store = FeedImageStoreSpy()
         var sut: LocalFeedImageLoader? = LocalFeedImageLoader(store: store)
         var capturedResults: [FeedImageLoader.Result] = []
         sut?.loadImage(with: anyURL()) { capturedResults.append($0) }
@@ -48,8 +48,8 @@ final class LoadImageFromCacheUseCaseTests: XCTestCase {
     
     // MARK: Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (store: LocalFeedImageLoaderStoreSpy, sut: LocalFeedImageLoader) {
-        let store = LocalFeedImageLoaderStoreSpy()
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (store: FeedImageStoreSpy, sut: LocalFeedImageLoader) {
+        let store = FeedImageStoreSpy()
         let sut = LocalFeedImageLoader(store: store)
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -73,7 +73,7 @@ final class LoadImageFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp])
     }
 
-    private class LocalFeedImageLoaderStoreSpy: FeedImageStore {
+     class FeedImageStoreSpy: FeedImageStore {
         
         private(set) var capturedResults: [(url: URL, completion: (FeedImageStore.Result) -> Void)] = []
         var requestedURLs: [URL] {
