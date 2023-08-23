@@ -9,21 +9,25 @@ import Foundation
 import Feed
 
 class FeedImageStoreSpy: FeedImageStore {
-   
-   private(set) var capturedResults: [(url: URL, completion: (FeedImageStore.RetrieveResult) -> Void)] = []
-   var requestedURLs: [URL] {
-       capturedResults.map(\.url)
-   }
-   
-   func retrieveImage(for url: URL, completion: @escaping (FeedImageStore.RetrieveResult) -> Void) {
-       capturedResults.append((url, completion))
-   }
+    
+    private(set) var capturedResults: [(url: URL, completion: (FeedImageStore.RetrieveResult) -> Void)] = []
+    var requestedURLs: [URL] {
+        capturedResults.map(\.url)
+    }
 
-   func completeRetrieve(with error: Error, at index: Int = 0) {
-       capturedResults[index].completion(.failure(error))
-   }
-   
-   func completeRetrieve(with imageData: Data = Data(), at index: Int = 0) {
-       capturedResults[index].completion(.success(imageData))
-   }
+    func retrieve(dataForURL url: URL, completion: @escaping (RetrieveResult) -> Void) {
+        capturedResults.append((url, completion))
+    }
+
+    func insert(_ data: Data, for url: URL, completion: @escaping (InsertResult) -> Void) {
+
+    }
+
+    func completeRetrieve(with error: Error, at index: Int = 0) {
+        capturedResults[index].completion(.failure(error))
+    }
+    
+    func completeRetrieve(with imageData: Data = Data(), at index: Int = 0) {
+        capturedResults[index].completion(.success(imageData))
+    }
 }

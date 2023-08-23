@@ -13,10 +13,19 @@ class ManagedFeedItem: NSManagedObject {
     @NSManaged var itemDescription: String?
     @NSManaged var location: String?
     @NSManaged var url: URL
+    @NSManaged var data: Data?
     @NSManaged var cache: ManagedCache
 }
 
 extension ManagedFeedItem {
+
+    static func first(with url: URL, in context: NSManagedObjectContext) throws -> ManagedFeedItem? {
+         let request = NSFetchRequest<ManagedFeedItem>(entityName: entity().name!)
+         request.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(ManagedFeedItem.url), url])
+         request.returnsObjectsAsFaults = false
+         request.fetchLimit = 1
+         return try context.fetch(request).first
+     }
 
     static func item(from localFeed: [LocalFeedItem], in context: NSManagedObjectContext) -> NSOrderedSet {
         let images = NSOrderedSet(array: localFeed.map { local in

@@ -14,7 +14,25 @@ public class LocalFeedImageLoader {
     public init(store: FeedImageStore) {
         self.store = store
     }
+}
+
+extension LocalFeedImageLoader: FeedImageCacher {
     
+    public typealias SaveResult = FeedImageCacher.Result
+
+    public enum SaveError: Error {
+           case failed
+    }
+
+    public func save(_ data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
+        store.insert(data, for: url) { [weak self] result in
+            guard self != nil else { return }
+            completion(result.mapError { _ in SaveError.failed }.flatMap {.success(())})
+        }
+    }
+}
+
+extension LocalFeedImageLoader: FeedImageLoader {
     public typealias LoadResult = FeedImageLoader.Result
 
     public enum LoadError: Error {
@@ -24,7 +42,7 @@ public class LocalFeedImageLoader {
     
     public func loadImage(with url: URL, completion: @escaping (LoadResult) -> Void) -> ImageLoaderTask {
         let task = LocalFeedImageLoaderTask(completion)
-        store.retrieveImage(for: url) { [weak self] result in
+        store.retrieve(dataForURL: url) { [weak self] result in
             guard self != nil else { return }
             task.complete(with: result
                 .mapError { _ in LoadError.failed }
@@ -50,9 +68,13 @@ public class LocalFeedImageLoader {
              completion?(result)
          }
          
-         func cancel() {
-             completion = nil
-         }
-     }
+        func cancel() {
+            preventFurtherCompletions()
+        }
 
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
+
+     }
 }
