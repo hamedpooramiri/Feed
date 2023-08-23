@@ -10,12 +10,12 @@ import Feed
 
 class FeedImageStoreSpy: FeedImageStore {
    
-   private(set) var capturedResults: [(url: URL, completion: (FeedImageStore.Result) -> Void)] = []
+   private(set) var capturedResults: [(url: URL, completion: (FeedImageStore.RetrieveResult) -> Void)] = []
    var requestedURLs: [URL] {
        capturedResults.map(\.url)
    }
    
-   func retrieveImage(for url: URL, completion: @escaping (FeedImageStore.Result) -> Void) {
+   func retrieveImage(for url: URL, completion: @escaping (FeedImageStore.RetrieveResult) -> Void) {
        capturedResults.append((url, completion))
    }
 
