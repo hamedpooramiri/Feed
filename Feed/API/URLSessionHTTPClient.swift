@@ -32,26 +32,27 @@ public class URLSessionHTTPClient: HttpClient {
         return task
     }
 
-}
-private final class URLSessionHTTPClientTask: HTTPClientTask {
+    private final class URLSessionHTTPClientTask: HTTPClientTask {
 
-    private var completion: ((HttpClient.Result)-> Void)?
-    var wrapped: URLSessionDataTask?
-    
-    init(_ completion: @escaping (HttpClient.Result)-> Void) {
-        self.completion = completion
-    }
-    
-    func complete(with result: HttpClient.Result) {
-        completion?(result)
-    }
-    
-    func cancel() {
-        preventFurtherCompletions()
-        wrapped?.cancel()
-    }
-    
-    private func preventFurtherCompletions() {
-        completion = nil
+        private var completion: ((HttpClient.Result)-> Void)?
+        var wrapped: URLSessionDataTask?
+        
+        init(_ completion: @escaping (HttpClient.Result)-> Void) {
+            self.completion = completion
+        }
+        
+        func complete(with result: HttpClient.Result) {
+            completion?(result)
+        }
+        
+        func cancel() {
+            preventFurtherCompletions()
+            wrapped?.cancel()
+        }
+        
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
     }
 }
+
