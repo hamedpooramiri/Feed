@@ -340,6 +340,13 @@
 			path = LocalImageLoader;
 			sourceTree = "<group>";
 		};
+		1C5825462A967FE400714E0B /* FeedImageStore */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FeedImageStore;
+			sourceTree = "<group>";
+		};
 		1C697A292A81533500E4FDBB /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +537,7 @@
 				1C3598792A89840800E59922 /* LocalFeedLoader */,
 				1C35987A2A8984D100E59922 /* FeedStore */,
 				1C5825412A9644BA00714E0B /* LocalImageLoader */,
+				1C5825462A967FE400714E0B /* FeedImageStore */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
