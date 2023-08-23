@@ -17,17 +17,41 @@ public class URLSessionHTTPClient: HttpClient {
 
     struct unexpectedValueRepresentation: Error {}
     
-    public func get(from url: URL, completion: @escaping (HttpClient.Result)-> Void) {
-        session.dataTask(with: url) { data, response, error in
+    public func get(from url: URL, completion: @escaping (HttpClient.Result)-> Void) -> HTTPClientTask? {
+        let task = URLSessionHTTPClientTask(completion)
+        task.wrapped = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                task.complete(with: .failure(error))
             } else if let data = data, let response = response as? HTTPURLResponse {
-                completion(.success((data, response)))
+                task.complete(with: .success((data, response)))
             } else {
-                completion(.failure(unexpectedValueRepresentation()))
+                task.complete(with: .failure(unexpectedValueRepresentation()))
             }
-        }.resume()
+        }
+        task.wrapped?.resume()
+        return task
     }
 
 }
+private final class URLSessionHTTPClientTask: HTTPClientTask {
 
+    private var completion: ((HttpClient.Result)-> Void)?
+    var wrapped: URLSessionDataTask?
+    
+    init(_ completion: @escaping (HttpClient.Result)-> Void) {
+        self.completion = completion
+    }
+    
+    func complete(with result: HttpClient.Result) {
+        completion?(result)
+    }
+    
+    func cancel() {
+        preventFurtherCompletions()
+        wrapped?.cancel()
+    }
+    
+    private func preventFurtherCompletions() {
+        completion = nil
+    }
+}
