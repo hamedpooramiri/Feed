@@ -1,5 +1,5 @@
 //
-//  LocalFeedImageLoaderTests.swift
+//  LoadImageFromCacheUseCaseTests.swift
 //  FeedTests
 //
 //  Created by hamedpouramiri on 8/23/23.
@@ -8,36 +8,7 @@
 import XCTest
 import Feed
 
-protocol FeedImageStore {
-    typealias Result = Swift.Result<Data, Error>
-    func retrieveImage(for url: URL, completion: @escaping (Result) -> Void)
-}
-
-class LocalFeedImageLoader {
-    
-    typealias Result = FeedImageLoader.Result
-    
-    let store: FeedImageStore
-    
-    init(store: FeedImageStore) {
-        self.store = store
-    }
-    
-    func loadImage(with url: URL, completion: @escaping (Result) -> Void) {
-        store.retrieveImage(for: url) { [weak self] result in
-            guard self != nil else { return }
-            switch result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-}
-
-final class LocalFeedImageLoaderTests: XCTestCase {
+final class LoadImageFromCacheUseCaseTests: XCTestCase {
 
     func test_init_notLoadFeedImageOnCreation() {
         let (store, _) = makeSUT()
