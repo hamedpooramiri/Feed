@@ -18,6 +18,7 @@
 		1C5825CD2A96FEF000714E0B /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; };
 		1C5825CE2A96FEF000714E0B /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C5825D12A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */; };
+		1C5825D82A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		1C5825C92A96FEF000714E0B /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825CA2A96FEF000714E0B /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositTests.swift; sourceTree = "<group>"; };
+		1C5825D42A97C36F00714E0B /* FeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +134,7 @@
 		1C5825AE2A96FD3F00714E0B /* FeedAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */,
 				1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */,
 			);
 			path = FeedAppTests;
@@ -148,6 +152,7 @@
 		1C5825C82A96FEF000714E0B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1C5825D42A97C36F00714E0B /* FeedTests.xctest */,
 				1C5825C92A96FEF000714E0B /* Feed.framework */,
 				1C5825CA2A96FEF000714E0B /* FeediOS.framework */,
 			);
@@ -296,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C5825D12A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift in Sources */,
+				1C5825D82A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,7 +466,7 @@
 				INFOPLIST_FILE = FeedApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -487,7 +493,7 @@
 				INFOPLIST_FILE = FeedApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
