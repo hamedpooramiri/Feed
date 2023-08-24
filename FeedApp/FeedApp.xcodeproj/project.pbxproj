@@ -21,6 +21,7 @@
 		1C5825D82A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */; };
 		1C5825DB2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */; };
 		1C5825DD2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DC2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift */; };
+		1C5825DF2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DE2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposit.swift; sourceTree = "<group>"; };
 		1C5825DC2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoaderWithFallbackCompositTests.swift; sourceTree = "<group>"; };
+		1C5825DE2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoaderWithFallbackComposit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */,
+				1C5825DE2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift */,
 			);
 			path = Composit;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C5825DF2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift in Sources */,
 				1C5825992A96FD3D00714E0B /* AppDelegate.swift in Sources */,
 				1C58259B2A96FD3D00714E0B /* SceneDelegate.swift in Sources */,
 				1C5825DB2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift in Sources */,
