@@ -11,9 +11,12 @@
 		1C58259B2A96FD3D00714E0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C58259A2A96FD3D00714E0B /* SceneDelegate.swift */; };
 		1C5825A22A96FD3F00714E0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C5825A12A96FD3F00714E0B /* Assets.xcassets */; };
 		1C5825A52A96FD3F00714E0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C5825A32A96FD3F00714E0B /* LaunchScreen.storyboard */; };
-		1C5825B02A96FD3F00714E0B /* FeedAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825AF2A96FD3F00714E0B /* FeedAppTests.swift */; };
 		1C5825BA2A96FD3F00714E0B /* FeedAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825B92A96FD3F00714E0B /* FeedAppUITests.swift */; };
 		1C5825BC2A96FD3F00714E0B /* FeedAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825BB2A96FD3F00714E0B /* FeedAppUITestsLaunchTests.swift */; };
+		1C5825CB2A96FEF000714E0B /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825C92A96FEF000714E0B /* Feed.framework */; };
+		1C5825CC2A96FEF000714E0B /* Feed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825C92A96FEF000714E0B /* Feed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C5825CD2A96FEF000714E0B /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; };
+		1C5825CE2A96FEF000714E0B /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +36,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1C5825CF2A96FEF000714E0B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1C5825CE2A96FEF000714E0B /* FeediOS.framework in Embed Frameworks */,
+				1C5825CC2A96FEF000714E0B /* Feed.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1C5825952A96FD3D00714E0B /* FeedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825982A96FD3D00714E0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,10 +59,11 @@
 		1C5825A42A96FD3F00714E0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C5825A62A96FD3F00714E0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C5825AB2A96FD3F00714E0B /* FeedAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C5825AF2A96FD3F00714E0B /* FeedAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppTests.swift; sourceTree = "<group>"; };
 		1C5825B52A96FD3F00714E0B /* FeedAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825B92A96FD3F00714E0B /* FeedAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppUITests.swift; sourceTree = "<group>"; };
 		1C5825BB2A96FD3F00714E0B /* FeedAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1C5825C92A96FEF000714E0B /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C5825CA2A96FEF000714E0B /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C5825CD2A96FEF000714E0B /* FeediOS.framework in Frameworks */,
+				1C5825CB2A96FEF000714E0B /* Feed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +100,7 @@
 				1C5825AE2A96FD3F00714E0B /* FeedAppTests */,
 				1C5825B82A96FD3F00714E0B /* FeedAppUITests */,
 				1C5825962A96FD3D00714E0B /* Products */,
+				1C5825C82A96FEF000714E0B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,7 +129,6 @@
 		1C5825AE2A96FD3F00714E0B /* FeedAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				1C5825AF2A96FD3F00714E0B /* FeedAppTests.swift */,
 			);
 			path = FeedAppTests;
 			sourceTree = "<group>";
@@ -121,6 +142,15 @@
 			path = FeedAppUITests;
 			sourceTree = "<group>";
 		};
+		1C5825C82A96FEF000714E0B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1C5825C92A96FEF000714E0B /* Feed.framework */,
+				1C5825CA2A96FEF000714E0B /* FeediOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,6 +161,7 @@
 				1C5825912A96FD3D00714E0B /* Sources */,
 				1C5825922A96FD3D00714E0B /* Frameworks */,
 				1C5825932A96FD3D00714E0B /* Resources */,
+				1C5825CF2A96FEF000714E0B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -260,7 +291,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C5825B02A96FD3F00714E0B /* FeedAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,8 +456,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -453,8 +483,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
