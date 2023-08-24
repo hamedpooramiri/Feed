@@ -22,6 +22,7 @@
 		1C5825DB2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */; };
 		1C5825DD2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DC2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift */; };
 		1C5825DF2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DE2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift */; };
+		1C8E54092A980D4800525C65 /* FeedApp.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 1C8E54082A980D4800525C65 /* FeedApp.xctestplan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposit.swift; sourceTree = "<group>"; };
 		1C5825DC2A97DC4B00714E0B /* FeedImageLoaderWithFallbackCompositTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoaderWithFallbackCompositTests.swift; sourceTree = "<group>"; };
 		1C5825DE2A97E7E000714E0B /* FeedImageLoaderWithFallbackComposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoaderWithFallbackComposit.swift; sourceTree = "<group>"; };
+		1C8E54082A980D4800525C65 /* FeedApp.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FeedApp.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		1C58258C2A96FD3D00714E0B = {
 			isa = PBXGroup;
 			children = (
+				1C8E54082A980D4800525C65 /* FeedApp.xctestplan */,
 				1C5825972A96FD3D00714E0B /* FeedApp */,
 				1C5825AE2A96FD3F00714E0B /* FeedAppTests */,
 				1C5825B82A96FD3F00714E0B /* FeedAppUITests */,
@@ -282,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8E54092A980D4800525C65 /* FeedApp.xctestplan in Resources */,
 				1C5825A52A96FD3F00714E0B /* LaunchScreen.storyboard in Resources */,
 				1C5825A22A96FD3F00714E0B /* Assets.xcassets in Resources */,
 			);

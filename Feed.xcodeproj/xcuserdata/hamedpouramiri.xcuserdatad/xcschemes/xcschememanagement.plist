@@ -27,7 +27,7 @@
 		<key>FeedCacheIntegrationTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>4</integer>
 		</dict>
 		<key>FeedTests.xcscheme_^#shared#^_</key>
 		<dict>
@@ -37,7 +37,7 @@
 		<key>FeediOS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>5</integer>
 		</dict>
 		<key>FeediOSTests.xcscheme_^#shared#^_</key>
 		<dict>
