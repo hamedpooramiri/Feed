@@ -19,6 +19,7 @@
 		1C5825CE2A96FEF000714E0B /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C5825D12A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */; };
 		1C5825D82A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */; };
+		1C5825DB2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositTests.swift; sourceTree = "<group>"; };
 		1C5825D42A97C36F00714E0B /* FeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825D72A97C40B00714E0B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 		1C5825972A96FD3D00714E0B /* FeedApp */ = {
 			isa = PBXGroup;
 			children = (
+				1C5825D92A97DB5800714E0B /* Composit */,
 				1C5825982A96FD3D00714E0B /* AppDelegate.swift */,
 				1C58259A2A96FD3D00714E0B /* SceneDelegate.swift */,
 				1C5825A12A96FD3F00714E0B /* Assets.xcassets */,
@@ -157,6 +160,14 @@
 				1C5825CA2A96FEF000714E0B /* FeediOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1C5825D92A97DB5800714E0B /* Composit */ = {
+			isa = PBXGroup;
+			children = (
+				1C5825DA2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift */,
+			);
+			path = Composit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,6 +304,7 @@
 			files = (
 				1C5825992A96FD3D00714E0B /* AppDelegate.swift in Sources */,
 				1C58259B2A96FD3D00714E0B /* SceneDelegate.swift in Sources */,
+				1C5825DB2A97DB6B00714E0B /* FeedLoaderWithFallbackComposit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
