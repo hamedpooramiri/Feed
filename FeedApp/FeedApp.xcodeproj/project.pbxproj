@@ -17,6 +17,7 @@
 		1C5825CC2A96FEF000714E0B /* Feed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825C92A96FEF000714E0B /* Feed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C5825CD2A96FEF000714E0B /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; };
 		1C5825CE2A96FEF000714E0B /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5825CA2A96FEF000714E0B /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C5825D12A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		1C5825BB2A96FD3F00714E0B /* FeedAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1C5825C92A96FEF000714E0B /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C5825CA2A96FEF000714E0B /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		1C5825AE2A96FD3F00714E0B /* FeedAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				1C5825D02A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift */,
 			);
 			path = FeedAppTests;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 					};
 					1C5825AA2A96FD3F00714E0B = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 						TestTargetID = 1C5825942A96FD3D00714E0B;
 					};
 					1C5825B42A96FD3F00714E0B = {
@@ -291,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C5825D12A9707DF00714E0B /* FeedLoaderWithFallbackCompositTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +508,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -511,6 +517,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = hamedAmiri.FeedAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FeedApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FeedApp";
@@ -522,6 +529,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
