@@ -2,7 +2,7 @@
 
 * See the 'Tag' section for each pattern source code 
 
-MVC(Apple MVC approach):
+🟢 MVC(Apple MVC approach):
 
 The model-view-controller (MVC) design pattern specifies that an application consists of a data model, presentation information, and control information. The pattern requires that each of these be separated into different objects.
 
@@ -14,7 +14,7 @@ Multi-MVC:
   
 <hr>
 
-MVVM(implement MVVM approach):
+🟢 MVVM(implement MVVM approach):
 
 Model-View-ViewModel (MVVM) is a software design pattern that is structured to separate program logic and user interface controls. MVVM is also known as model-view-binder and was created by Microsoft architects Ken Cooper and John Gossman.
   
@@ -22,7 +22,7 @@ Model-View-ViewModel (MVVM) is a software design pattern that is structured to s
 
 <hr>
 
-MVP:
+🟢 MVP:
 
 The MVP pattern is similar to the MVC pattern. It is derived from the MVC pattern, wherein the controller is replaced by the presenter. This pattern divides an application into three major aspects: Model, View, and Presenter. The Model represents a set of classes that describe the business logic and data.
 
@@ -44,7 +44,7 @@ The MVP pattern is similar to the MVC pattern. It is derived from the MVC patter
 
 <hr>
 
-VIPER(iOS implementation of Clean Architecture): 
+🟢 VIPER(iOS implementation of Clean Architecture): 
 
   It's MVP + some extra classes and trying to solve the 'class dependency' issue and 'testability'.
   
