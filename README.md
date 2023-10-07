@@ -42,5 +42,20 @@ The MVP pattern is similar to the MVC pattern. It is derived from the MVC patter
           implement a unidirectional MVP communication approach
 
 
+<hr>
+
+VIPER(iOS implementation of Clean Architecture): 
+
+  It's MVP + some extra classes and trying to solve the 'class dependency' issue and 'testability'.
+  
+![Screenshot](VIPER.png)
 
 
+  ⚠️ Warning:
+            
+    These are UI Design Patterns,
+    not your App architecture because we may end up with 'Clean Code' but spaghetti Architecture,
+    Architecture is more about the 'Modular dependency' issue rather than the class dependency issue.
+
+
+![Screenshot](MVP-Not-Architecture.png)
